@@ -87,7 +87,27 @@
     "ƒ.Graph": {
       "name": "Game",
       "active": true,
-      "components": {},
+      "components": {
+        "ComponentLight": [
+          {
+            "ƒ.ComponentLight": {
+              "pivot": {
+                "translation": "[0, 0, 0]",
+                "rotation": "[0, 0, 0]",
+                "scaling": "[1, 1, 1]"
+              },
+              "light": {
+                "ƒ.LightAmbient": {
+                  "color": "[1, 1, 1, 1]"
+                }
+              },
+              "Component": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
       "children": [
         {
           "ƒ.Node": {
