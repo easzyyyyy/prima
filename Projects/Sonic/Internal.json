@@ -64,29 +64,95 @@
       "type": "MeshSprite"
     }
   },
-  "Material|2023-03-23T15:16:10.177Z|33166": {
+  "Material|2023-03-23T15:28:31.669Z|02672": {
     "ƒ.Material": {
-      "name": "SonicStand",
-      "idResource": "Material|2023-03-23T15:16:10.177Z|33166",
+      "name": "Background",
+      "idResource": "Material|2023-03-23T15:28:31.669Z|02672",
       "shader": "ShaderFlatTextured",
       "coat": {
         "ƒ.CoatRemissiveTextured": {
           "color": "[1, 1, 1, 1]",
-          "idTexture": "TextureImage|2023-03-23T15:16:04.586Z|81518",
+          "idTexture": "TextureImage|2023-03-23T15:28:29.262Z|95237",
           "diffuse": 1,
           "specular": 0
         }
       }
     }
   },
-  "TextureImage|2023-03-23T15:16:04.586Z|81518": {
+  "TextureImage|2023-03-23T15:28:29.262Z|95237": {
     "ƒ.TextureImage": {
-      "url": "Images/sonic_stand.png",
+      "url": "Images/background.png",
       "type": "TextureImage",
       "Texture": {
-        "idResource": "TextureImage|2023-03-23T15:16:04.586Z|81518",
-        "name": "sonic_stand.png",
+        "idResource": "TextureImage|2023-03-23T15:28:29.262Z|95237",
+        "name": "background.png",
         "mipmap": "CRISP"
+      }
+    }
+  },
+  "Material|2023-04-09T14:06:58.125Z|40233": {
+    "ƒ.Material": {
+      "name": "SonicTexture",
+      "idResource": "Material|2023-04-09T14:06:58.125Z|40233",
+      "shader": "ShaderFlatTextured",
+      "coat": {
+        "ƒ.CoatRemissiveTextured": {
+          "color": "[1, 1, 1, 1]",
+          "idTexture": "TextureImage|2023-04-09T14:06:17.637Z|97296",
+          "diffuse": 1,
+          "specular": 0
+        }
+      }
+    }
+  },
+  "TextureImage|2023-04-09T14:06:17.637Z|97296": {
+    "ƒ.TextureImage": {
+      "url": "Images/sonic_spritesheet.png",
+      "type": "TextureImage",
+      "Texture": {
+        "idResource": "TextureImage|2023-04-09T14:06:17.637Z|97296",
+        "name": "sonic_spritesheet.png",
+        "mipmap": "CRISP"
+      }
+    }
+  },
+  "AnimationSprite|2023-04-09T14:09:29.444Z|91739": {
+    "ƒ.AnimationSprite": {
+      "idResource": "AnimationSprite|2023-04-09T14:09:29.444Z|91739",
+      "idTexture": "TextureImage|2023-04-09T14:06:17.637Z|97296",
+      "frames": 22,
+      "wrapAfter": 22,
+      "start": "[2, 8]",
+      "size": "[36, 35]",
+      "next": "[36, 0]",
+      "wrap": "[0, 50]",
+      "Animation": {
+        "idResource": "AnimationSprite|2023-04-09T14:09:29.444Z|91739",
+        "name": "SonicIdle",
+        "labels": {},
+        "events": {},
+        "framesPerSecond": 5,
+        "animationStructure": {}
+      }
+    }
+  },
+  "AnimationSprite|2023-04-09T14:33:53.879Z|38058": {
+    "ƒ.AnimationSprite": {
+      "idResource": "AnimationSprite|2023-04-09T14:33:53.879Z|38058",
+      "idTexture": "TextureImage|2023-04-09T14:06:17.637Z|97296",
+      "frames": 9,
+      "wrapAfter": 9,
+      "start": "[595, 100]",
+      "size": "[33, 36]",
+      "next": "[36, 0]",
+      "wrap": "[0, 80]",
+      "Animation": {
+        "idResource": "AnimationSprite|2023-04-09T14:33:53.879Z|38058",
+        "name": "SonicRun",
+        "labels": {},
+        "events": {},
+        "framesPerSecond": 9,
+        "animationStructure": {}
       }
     }
   },
@@ -1129,6 +1195,62 @@
                   },
                   "children": []
                 }
+              },
+              {
+                "ƒ.Node": {
+                  "name": "Floor",
+                  "active": true,
+                  "components": {
+                    "ComponentMesh": [
+                      {
+                        "ƒ.ComponentMesh": {
+                          "idMesh": "MeshQuad|2023-03-20T15:46:34.111Z|06342",
+                          "pivot": {
+                            "translation": "[0, 0, 0]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ],
+                    "ComponentMaterial": [
+                      {
+                        "ƒ.ComponentMaterial": {
+                          "sortForAlpha": false,
+                          "clrPrimary": "[1, 1, 1, 1]",
+                          "clrSecondary": "[1, 1, 1, 1]",
+                          "pivot": {
+                            "translation": "[0, 0]",
+                            "rotation": 0,
+                            "scaling": "[1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          },
+                          "idMaterial": "Material|2023-03-21T09:13:13.890Z|01442"
+                        }
+                      }
+                    ],
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[2, 2.5000009536743164, 0]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": []
+                }
               }
             ]
           }
@@ -1145,7 +1267,21 @@
                     "pivot": {
                       "translation": "[0, 0, 0]",
                       "rotation": "[0, 0, 0]",
-                      "scaling": "[1, 1, 1]"
+                      "scaling": "[1.0000001192092896, 1, 1]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ],
+              "ComponentTransform": [
+                {
+                  "ƒ.ComponentTransform": {
+                    "local": {
+                      "translation": "[0, 1, 0]",
+                      "rotation": "[0, 0, 0]",
+                      "scaling": "[0.9999999403953552, 1, 1]"
                     },
                     "Component": {
                       "active": true
@@ -1160,28 +1296,29 @@
                     "clrPrimary": "[1, 1, 1, 1]",
                     "clrSecondary": "[1, 1, 1, 1]",
                     "pivot": {
-                      "translation": "[0, 0]",
+                      "translation": "[0.7160857319831848, 0.05146680399775505]",
                       "rotation": 0,
-                      "scaling": "[1, 1]"
+                      "scaling": "[0.031976744532585144, 0.018528049811720848]"
                     },
                     "Component": {
                       "active": true
                     },
-                    "idMaterial": "Material|2023-03-23T15:16:10.177Z|33166"
+                    "idMaterial": "Material|2023-04-09T14:06:58.125Z|40233"
                   }
                 }
               ],
-              "ComponentTransform": [
+              "ComponentAnimator": [
                 {
-                  "ƒ.ComponentTransform": {
-                    "local": {
-                      "translation": "[0, 1, 0]",
-                      "rotation": "[0, 0, 0]",
-                      "scaling": "[1, 1, 1]"
-                    },
+                  "ƒ.ComponentAnimator": {
                     "Component": {
                       "active": true
-                    }
+                    },
+                    "idAnimation": "AnimationSprite|2023-04-09T14:09:29.444Z|91739",
+                    "playmode": "loop",
+                    "quantization": "discrete",
+                    "scale": 1,
+                    "scaleWithGameTime": true,
+                    "animateInEditor": false
                   }
                 }
               ]
@@ -1248,32 +1385,6 @@
       ],
       "idResource": "Graph|2023-03-20T15:45:21.591Z|67884",
       "type": "Graph"
-    }
-  },
-  "TextureImage|2023-03-23T15:28:29.262Z|95237": {
-    "ƒ.TextureImage": {
-      "url": "Images/background.png",
-      "type": "TextureImage",
-      "Texture": {
-        "idResource": "TextureImage|2023-03-23T15:28:29.262Z|95237",
-        "name": "background.png",
-        "mipmap": "CRISP"
-      }
-    }
-  },
-  "Material|2023-03-23T15:28:31.669Z|02672": {
-    "ƒ.Material": {
-      "name": "Background",
-      "idResource": "Material|2023-03-23T15:28:31.669Z|02672",
-      "shader": "ShaderFlatTextured",
-      "coat": {
-        "ƒ.CoatRemissiveTextured": {
-          "color": "[1, 1, 1, 1]",
-          "idTexture": "TextureImage|2023-03-23T15:28:29.262Z|95237",
-          "diffuse": 1,
-          "specular": 0
-        }
-      }
     }
   }
 }
