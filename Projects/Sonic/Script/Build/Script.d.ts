@@ -10,7 +10,8 @@ declare namespace Script {
 declare namespace Script {
     import ƒ = FudgeCore;
     function timeBased(value: number): number;
-    function collide(node1: ƒ.Node, node2: ƒ.Node): string;
+    function collide(node1: ƒ.Node, node2: ƒ.Node): boolean;
+    function cameraFollowSprite(sprite: ƒ.Node, viewport: ƒ.Viewport): void;
 }
 declare namespace Script {
 }
@@ -24,6 +25,9 @@ declare namespace Script {
         accY: number;
         isJumping: boolean;
         node: ƒ.Node;
+        transform: ƒ.Node;
+        visual: ƒ.Node;
+        audio: ƒ.ComponentAudio;
         constructor(node: ƒ.Node, name: string);
         getX(): number;
         getY(): number;
@@ -37,12 +41,13 @@ declare namespace Script {
          */
         getSide(): number;
         /**
-         * 1 = right, -1 = left
-         * @param side
+         * right or left
+         * @param {string} side
          */
-        setSide(side: number): void;
+        setSide(side: string): void;
         move(): void;
         anim(): void;
+        playSound(name: string): void;
         jump(): void;
     }
 }

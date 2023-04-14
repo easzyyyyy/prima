@@ -3,6 +3,7 @@ namespace Script {
     ƒ.Debug.info("Main Program Template running!");
 
     let viewport: ƒ.Viewport;
+    let game: ƒ.Node
     let sonic: Sprite;
     let terrain: ƒ.Node;
 
@@ -12,17 +13,28 @@ namespace Script {
     function start(_event: CustomEvent): void {
         viewport = _event.detail;
 
+        game = viewport.getBranch()
+
+        // Setup music
+        const music = game.getComponent(ƒ.ComponentAudio)
+        const musicAudio = ƒ.Project.getResourcesByName('music.mp3')[0] as ƒ.Audio
+        music.setAudio(musicAudio)
+        music.play(true)
+
+        // Setup Sonic
         const sonicNode = viewport.getBranch().getChildrenByName('Sonic')[0];
         sonic = new Sprite(sonicNode, 'Sonic');
-        // let cmpSonic: ƒ.ComponentTransform = sonic.getComponent(ƒ.ComponentTransform);
-        // cmpSonic.mtxLocal.translateX(1);
+
+        // Setup audio
+        let audioListener: ƒ.ComponentAudioListener = sonicNode.getComponent(ƒ.ComponentAudioListener);
+        ƒ.AudioManager.default.listenWith(audioListener);
+        ƒ.AudioManager.default.listenTo(game);
+        ƒ.Debug.log("Audio:", ƒ.AudioManager.default);
 
         // Move the default camera
         viewport.camera.mtxPivot.translateZ(15);
         viewport.camera.mtxPivot.rotateY(180);
-
-        viewport.camera.mtxPivot.translateX(-4.5);
-        viewport.camera.mtxPivot.translateY(3.5);
+        viewport.camera.mtxPivot.translateY(5);
 
         // Load terrain
         terrain = viewport.getBranch().getChildrenByName('Terrain')[0];
@@ -38,16 +50,10 @@ namespace Script {
         viewport.draw();
         // ƒ.AudioManager.default.update();
 
-        // Make sonic move
-        let sonicPos = sonic.getX();
-        if (sonicPos > 9.2) {
-            sonic.setX(0);
-        } else if (sonicPos < -0.1) {
-            sonic.setX(9.2);
-        }
+        // Move camera
+        cameraFollowSprite(sonic.node, viewport);
 
         // Control sonic
-
         // Right and Left
         if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
             sonic.speedX = 6;
@@ -57,47 +63,29 @@ namespace Script {
             sonic.speedX = 0;
         }
 
-        // // Right and Left fun
-        // if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
-        //   sonic.accX = 0.005;
-        // } else if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A, ƒ.KEYBOARD_CODE.ARROW_LEFT])) {
-        //   sonic.accX = -0.005;
-        // } else {
-        //   sonic.accX = 0;
-        //   sonic.speedX /= 1.1;
-        // }
-
         // Jump
         if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE, ƒ.KEYBOARD_CODE.ARROW_UP])) {
             sonic.jump();
         }
 
-        for (const block of terrain.getChildren()) {
-            block
-            // if (collide(sonic.node, block)) {
-
-            // }
-        }
-
         sonic.move();
         sonic.anim();
 
-        let tiles: ƒ.Node[] = viewport.getBranch().getChildrenByName("Terrain")[0].getChildren()
+        // Test collisions
+        let tiles: ƒ.Node[] = terrain.getChildren()
         for (let tile of tiles) {
             const collision = collide(sonic.node, tile)
-            if (collision === 'top') {
+            if (collision) {
                 sonic.isJumping = false;
                 sonic.speedY = 0;
-            }
-            if (collision === 'bottom') {
-                sonic.speedY = 0;
-            }
-            if (collision === 'right') {
                 sonic.speedX = 0;
             }
-            if (collision === 'left') {
-                sonic.speedX = 0;
-            }
+        }
+
+        // Test if game is over
+        if (sonic.getY() < -5) {
+            sonic.playSound('death.mp3');
+            sonic.setPos(0, 1);
         }
     }
 }

@@ -9,13 +9,21 @@ namespace Script {
         accY = -30;
         isJumping = false;
         node: ƒ.Node;
+        transform: ƒ.Node;
+        visual: ƒ.Node;
+        audio: ƒ.ComponentAudio;
 
         constructor(node: ƒ.Node, name: string) {
             this.node = node;
+            this.transform = this.node.getChildrenByName('SonicTransform')[0];
+            this.visual = this.transform.getChildrenByName('SonicVisual')[0];
+            this.audio = this.node.getComponent(ƒ.ComponentAudio);
             this.name = name;
 
             // Change the Node scale in order to respect the Sonic ratio
             this.node.mtxLocal.scaleX(177/250);
+            // Because the spritesheet is on the wrong side
+            this.transform.mtxLocal.rotateY(180);
         }
 
         getX() {
@@ -58,15 +66,13 @@ namespace Script {
         }
 
         /**
-         * 1 = right, -1 = left
-         * @param side
+         * right or left
+         * @param {string} side
          */
-        setSide(side: number) {
-            const material = this.node.getComponent(ƒ.ComponentMaterial);
-
-            let newMtxLocal = material.mtxPivot.scaling;
-            newMtxLocal.x = side;
-            material.mtxPivot.scaling = newMtxLocal;
+        setSide(side: string) {
+            let newRotation = this.node.mtxLocal.rotation;
+            newRotation.y = side === 'right' ? 0 : 180;
+            this.node.mtxLocal.rotation = newRotation;
         }
 
         move() {
@@ -75,13 +81,13 @@ namespace Script {
 
             // If the speed is negativ, sonic is going to the left so we change his side
             if (this.speedX < 0) {
-                this.setSide(-1);
+                this.setSide('left');
             } else if (this.speedX > 0) {
-                this.setSide(1);
+                this.setSide('right');
             }
 
-            // Not abs because the side is changed for the material, not for the node
-            this.node.mtxLocal.translateX(timeBased(this.speedX));
+            // abs because the side is changed for the node
+            this.node.mtxLocal.translateX(timeBased(Math.abs(this.speedX)));
             this.node.mtxLocal.translateY(timeBased(this.speedY));
 
             // So sonic don't go under 1 in y
@@ -93,23 +99,34 @@ namespace Script {
             // }
         }
 
-
         anim() {
-            // const animation = this.node.getComponent(ƒ.ComponentAnimator)
-            // if (this.speedX !== 0 && animation.animation.name !== 'SonicRun') {
-            //     this.node.removeComponent(animation)
-            //     // this.node.addComponent(new ƒ.ComponentAnimator)
-            // }
-            // else if (animation.animation.name !== 'SonicIdle') {
-            //     this.node.removeComponent(animation)
-            //     // this.node.addComponent(new ƒ.ComponentAnimator)
-            // }
+            const currentAnimation = this.visual.getComponent(ƒ.ComponentAnimator)
+            let nextAnimationName = null
+            if (this.isJumping) {
+                nextAnimationName = 'SonicJump'
+            } else if (this.speedX !== 0) {
+                nextAnimationName = 'SonicRun'
+            } else {
+                nextAnimationName = 'SonicIdle'
+            }
+
+            if (currentAnimation.animation.name !== nextAnimationName) {
+                const nextAnimation = ƒ.Project.getResourcesByName(nextAnimationName)[0] as ƒ.AnimationSprite
+                currentAnimation.animation = nextAnimation
+            }
+        }
+
+        playSound(name: string) {
+            const sound = ƒ.Project.getResourcesByName(name)[0] as ƒ.Audio;
+            this.audio.setAudio(sound);
+            this.audio.play(true);
         }
 
         jump() {
             if (!this.isJumping) {
                 this.speedY = 10;
                 this.isJumping = true;
+                this.playSound('jump.mp3');
             }
         }
     }
