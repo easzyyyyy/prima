@@ -24,6 +24,12 @@ namespace Script {
             this.node.mtxLocal.scaleX(177/250);
             // Because the spritesheet is on the wrong side
             this.transform.mtxLocal.rotateY(180);
+
+            // Music
+            const cmpMusic = this.node.getComponents(ƒ.ComponentAudio)[1];
+            const musicAudio = ƒ.Project.getResourcesByName('music.mp3')[0] as ƒ.Audio
+            cmpMusic.setAudio(musicAudio)
+            cmpMusic.play(true)
         }
 
         getX() {
@@ -89,14 +95,6 @@ namespace Script {
             // abs because the side is changed for the node
             this.node.mtxLocal.translateX(timeBased(Math.abs(this.speedX)));
             this.node.mtxLocal.translateY(timeBased(this.speedY));
-
-            // So sonic don't go under 1 in y
-            // let posY = this.getY()
-            // if (posY < 1) {
-            //     this.setY(1);
-            //     this.isJumping = false;
-            //     this.speedY = 0;
-            // }
         }
 
         anim() {

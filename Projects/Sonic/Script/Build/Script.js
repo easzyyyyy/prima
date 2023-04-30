@@ -43,53 +43,28 @@ var Script;
         return value * ƒ.Loop.timeFrameGame / 1000;
     }
     Script.timeBased = timeBased;
-    // export function collide(node1: ƒ.Node, node2: ƒ.Node) {
-    //     // console.log(node1.mtxWorld);
-    //     // console.log(node2.mtxWorld);
-    //     // console.log(node2.mtxWorldInverse);
-    //     // mtxWorldInverse is not a function, how can we transform a point from world to local
-    //     debugger
-    //     return true;
-    // }
     function collide(node1, node2) {
-        const posWorld = node1.mtxLocal.translation;
-        const pos = ƒ.Vector3.TRANSFORMATION(posWorld, node2.mtxWorldInverse, true);
-        let collision = false;
-        const isOnBlockHorrizontally = pos.x < 0.5 && pos.x > -0.5;
-        const isOnBlockVertically = pos.y < 0.5 && pos.y > -0.5;
-        if (isOnBlockHorrizontally) {
-            if (pos.y < 1 && pos.y > 0) {
-                node1.mtxLocal.translateY(1 - pos.y);
-                collision = true;
-            }
-            if (pos.y < 0 && pos.y > -1) {
-                node1.mtxLocal.translateY(-(1 + pos.y));
-                collision = true;
-            }
+        let node1Pos = node1.mtxLocal.translation;
+        let pos = ƒ.Vector3.TRANSFORMATION(node1Pos, node2.mtxWorldInverse, true);
+        if (pos.y < 0.5 && pos.x > -0.5 && pos.x < 0.5) {
+            pos.y = 0.5;
+            pos = ƒ.Vector3.TRANSFORMATION(pos, node2.mtxWorld, true);
+            node1.mtxLocal.translation = pos;
+            return true;
         }
-        if (isOnBlockVertically) {
-            if (pos.x < 1 && pos.x > 0) {
-                node1.mtxLocal.translateX(-(1 - pos.x));
-                collision = true;
-            }
-            if (pos.x < 0 && pos.x > -1) {
-                node1.mtxLocal.translateX(-(1 + pos.x));
-                collision = true;
-            }
-        }
-        return collision;
+        return false;
     }
     Script.collide = collide;
     function cameraFollowSprite(sprite, viewport) {
         // Move camera on x only
-        let pos = viewport.camera.mtxPivot.translation;
-        pos.x = sprite.mtxLocal.translation.x;
-        viewport.camera.mtxPivot.translation = pos;
+        let difference = viewport.camera.mtxPivot.translation;
+        difference.x = sprite.mtxLocal.translation.x;
+        viewport.camera.mtxPivot.translation = difference;
         // Move camera on x and y
-        // let pos = sprite.mtxLocal.translation
-        // pos.z = viewport.camera.mtxPivot.translation.z
-        // viewport.camera.mtxPivot.translation = pos
-        // Display bugs
+        // let difference = sprite.mtxLocal.translation
+        // difference.z = viewport.camera.mtxPivot.translation.z
+        // viewport.camera.mtxPivot.translation = difference
+        // Displays bugs
         // let mutator: ƒ.Mutator = sprite.mtxLocal.getMutator()
         // viewport.camera.mtxPivot.mutate({
         //     "translation": {
@@ -107,17 +82,12 @@ var Script;
     let viewport;
     let game;
     let sonic;
-    let terrain;
+    let floor;
     document.addEventListener("interactiveViewportStarted", start);
     // document.addEventListener("keydown", handleKeyboard);
     function start(_event) {
         viewport = _event.detail;
         game = viewport.getBranch();
-        // Setup music
-        const music = game.getComponent(ƒ.ComponentAudio);
-        const musicAudio = ƒ.Project.getResourcesByName('music.mp3')[0];
-        music.setAudio(musicAudio);
-        music.play(true);
         // Setup Sonic
         const sonicNode = viewport.getBranch().getChildrenByName('Sonic')[0];
         sonic = new Script.Sprite(sonicNode, 'Sonic');
@@ -129,17 +99,15 @@ var Script;
         // Move the default camera
         viewport.camera.mtxPivot.translateZ(15);
         viewport.camera.mtxPivot.rotateY(180);
-        viewport.camera.mtxPivot.translateY(5);
-        // Load terrain
-        terrain = viewport.getBranch().getChildrenByName('Terrain')[0];
+        viewport.camera.mtxPivot.translateY(2);
+        // Load Floor
+        floor = viewport.getBranch().getChildrenByName('Floor')[0];
         ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, update);
         ƒ.Loop.start(); // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
     }
     function update(_event) {
         // let timeStamp = _event.timeStamp;
         // ƒ.Physics.simulate();  // if physics is included and used
-        viewport.draw();
-        // ƒ.AudioManager.default.update();
         // Move camera
         Script.cameraFollowSprite(sonic.node, viewport);
         // Control sonic
@@ -157,10 +125,14 @@ var Script;
         if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE, ƒ.KEYBOARD_CODE.ARROW_UP])) {
             sonic.jump();
         }
+        const beforeMove = sonic.node.mtxLocal.translation;
+        beforeMove;
         sonic.move();
         sonic.anim();
-        // Test collisions
-        let tiles = terrain.getChildren();
+        const afterMove = sonic.node.mtxLocal.translation;
+        afterMove;
+        // Sonic collisions
+        let tiles = floor.getChildren();
         for (let tile of tiles) {
             const collision = Script.collide(sonic.node, tile);
             if (collision) {
@@ -169,11 +141,15 @@ var Script;
                 sonic.speedX = 0;
             }
         }
+        const afterCollide = sonic.node.mtxLocal.translation;
+        afterCollide;
         // Test if game is over
-        if (sonic.getY() < -5) {
-            sonic.playSound('death.mp3');
-            sonic.setPos(0, 1);
-        }
+        // if (sonic.getY() < -5) {
+        //     sonic.playSound('death.mp3');
+        //     sonic.setPos(0, 1);
+        // }
+        viewport.draw();
+        ƒ.AudioManager.default.update();
     }
 })(Script || (Script = {}));
 var Script;
@@ -200,6 +176,11 @@ var Script;
             this.node.mtxLocal.scaleX(177 / 250);
             // Because the spritesheet is on the wrong side
             this.transform.mtxLocal.rotateY(180);
+            // Music
+            const cmpMusic = this.node.getComponents(ƒ.ComponentAudio)[1];
+            const musicAudio = ƒ.Project.getResourcesByName('music.mp3')[0];
+            cmpMusic.setAudio(musicAudio);
+            cmpMusic.play(true);
         }
         getX() {
             return this.node.mtxLocal.translation.x;
@@ -255,13 +236,6 @@ var Script;
             // abs because the side is changed for the node
             this.node.mtxLocal.translateX(Script.timeBased(Math.abs(this.speedX)));
             this.node.mtxLocal.translateY(Script.timeBased(this.speedY));
-            // So sonic don't go under 1 in y
-            // let posY = this.getY()
-            // if (posY < 1) {
-            //     this.setY(1);
-            //     this.isJumping = false;
-            //     this.speedY = 0;
-            // }
         }
         anim() {
             const currentAnimation = this.visual.getComponent(ƒ.ComponentAnimator);

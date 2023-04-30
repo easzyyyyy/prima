@@ -5,7 +5,7 @@ namespace Script {
     let viewport: ƒ.Viewport;
     let game: ƒ.Node
     let sonic: Sprite;
-    let terrain: ƒ.Node;
+    let floor: ƒ.Node;
 
     document.addEventListener("interactiveViewportStarted", <EventListener>start);
     // document.addEventListener("keydown", handleKeyboard);
@@ -14,12 +14,6 @@ namespace Script {
         viewport = _event.detail;
 
         game = viewport.getBranch()
-
-        // Setup music
-        const music = game.getComponent(ƒ.ComponentAudio)
-        const musicAudio = ƒ.Project.getResourcesByName('music.mp3')[0] as ƒ.Audio
-        music.setAudio(musicAudio)
-        music.play(true)
 
         // Setup Sonic
         const sonicNode = viewport.getBranch().getChildrenByName('Sonic')[0];
@@ -34,10 +28,10 @@ namespace Script {
         // Move the default camera
         viewport.camera.mtxPivot.translateZ(15);
         viewport.camera.mtxPivot.rotateY(180);
-        viewport.camera.mtxPivot.translateY(5);
+        viewport.camera.mtxPivot.translateY(2);
 
-        // Load terrain
-        terrain = viewport.getBranch().getChildrenByName('Terrain')[0];
+        // Load Floor
+        floor = viewport.getBranch().getChildrenByName('Floor')[0];
 
         ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, update);
         ƒ.Loop.start();  // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
@@ -47,8 +41,6 @@ namespace Script {
         // let timeStamp = _event.timeStamp;
 
         // ƒ.Physics.simulate();  // if physics is included and used
-        viewport.draw();
-        // ƒ.AudioManager.default.update();
 
         // Move camera
         cameraFollowSprite(sonic.node, viewport);
@@ -68,11 +60,17 @@ namespace Script {
             sonic.jump();
         }
 
+        const beforeMove = sonic.node.mtxLocal.translation
+        beforeMove
+
         sonic.move();
         sonic.anim();
 
-        // Test collisions
-        let tiles: ƒ.Node[] = terrain.getChildren()
+        const afterMove = sonic.node.mtxLocal.translation
+        afterMove
+
+        // Sonic collisions
+        let tiles: ƒ.Node[] = floor.getChildren()
         for (let tile of tiles) {
             const collision = collide(sonic.node, tile)
             if (collision) {
@@ -82,10 +80,16 @@ namespace Script {
             }
         }
 
+        const afterCollide = sonic.node.mtxLocal.translation
+        afterCollide
+
         // Test if game is over
-        if (sonic.getY() < -5) {
-            sonic.playSound('death.mp3');
-            sonic.setPos(0, 1);
-        }
+        // if (sonic.getY() < -5) {
+        //     sonic.playSound('death.mp3');
+        //     sonic.setPos(0, 1);
+        // }
+
+        viewport.draw();
+        ƒ.AudioManager.default.update();
     }
 }
