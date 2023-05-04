@@ -18,8 +18,11 @@ declare namespace Script {
 declare namespace Script {
     import ƒ = FudgeCore;
     function createMap(xSize: number, ySize: number, zSize: number, graph: ƒ.Node): void;
-    function pickNearestBlock(_event: PointerEvent, viewport: ƒ.Viewport): ƒ.Node;
-    function removeNearestBlock(_event: PointerEvent, viewport: ƒ.Viewport): void;
+    function getSortedPicksByCamera(_event: PointerEvent): ƒ.Pick[];
+    function removeBlock(_event: PointerEvent): void;
+    function placeBlock(_event: PointerEvent): void;
 }
 declare namespace Script {
+    import ƒ = FudgeCore;
+    let viewport: ƒ.Viewport;
 }

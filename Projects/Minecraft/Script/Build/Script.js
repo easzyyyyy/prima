@@ -75,64 +75,57 @@ var Script;
         }
     }
     Script.createMap = createMap;
-    function pickNearestBlock(_event, viewport) {
-        let blocksList = [];
-        // @ts-ignore
-        viewport.getBranch().addEventListener(_event.type, hit);
-        // No _event.pick here, how to get the list
-        // @ts-ignore
-        // let pick = _event.pick;
-        viewport.draw();
-        viewport.dispatchPointerEvent(_event);
-        function hit(_event) {
-            let node = _event.target;
-            if (node.name == "Block") {
-                blocksList.push(node);
-            }
-        }
-        blocksList.sort((a, b) => {
-            const cameraTranslation = viewport.camera.mtxWorld.translation;
-            const distanceA = cameraTranslation.getDistance(a.mtxWorld.translation);
-            const distanceB = cameraTranslation.getDistance(b.mtxWorld.translation);
-            console.log(distanceA);
-            return distanceA - distanceB;
-        });
-        // @ts-ignore
-        viewport.getBranch().removeEventListener("click", hit);
-        return blocksList.length > 0 ? blocksList[0] : null;
+    function getSortedPicksByCamera(_event) {
+        let picks = ƒ.Picker.pickViewport(Script.viewport, new ƒ.Vector2(_event.clientX, _event.clientY));
+        picks.sort((_a, _b) => _a.zBuffer - _b.zBuffer);
+        return picks;
     }
-    Script.pickNearestBlock = pickNearestBlock;
-    function removeNearestBlock(_event, viewport) {
-        const block = pickNearestBlock(_event, viewport);
+    Script.getSortedPicksByCamera = getSortedPicksByCamera;
+    function removeBlock(_event) {
+        const block = getSortedPicksByCamera(_event)[0]?.node;
         if (block) {
             block.getParent().removeChild(block);
+            Script.viewport.draw();
         }
     }
-    Script.removeNearestBlock = removeNearestBlock;
+    Script.removeBlock = removeBlock;
+    function placeBlock(_event) {
+        const nearestPick = getSortedPicksByCamera(_event)[0];
+        const block = nearestPick?.node;
+        if (block) {
+            const position = ƒ.Vector3.SUM(block.mtxLocal.translation, nearestPick.normal);
+            const color = new ƒ.Color(255, 0, 0);
+            const newBlock = new Script.Block(position, color);
+            block.getParent().addChild(newBlock);
+            Script.viewport.draw();
+        }
+    }
+    Script.placeBlock = placeBlock;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
     var ƒ = FudgeCore;
     ƒ.Debug.info("Main Program Template running!");
-    let viewport;
     // @ts-ignore
     document.addEventListener("interactiveViewportStarted", start);
     async function start(_event) {
-        viewport = _event.detail;
+        Script.viewport = _event.detail;
         // Move the default camera
-        viewport.camera.mtxPivot.rotateY(0);
-        viewport.camera.mtxPivot.translateZ(-20);
-        viewport.camera.mtxPivot.translateX(2.5);
+        Script.viewport.camera.mtxPivot.rotateY(0);
+        Script.viewport.camera.mtxPivot.translateZ(0);
+        Script.viewport.camera.mtxPivot.translateX(0);
         // Create map
-        Script.createMap(5, 5, 5, viewport.getBranch());
+        Script.createMap(5, 5, 5, Script.viewport.getBranch());
         // @ts-ignore
-        viewport.canvas.addEventListener("click", (_event) => Script.removeNearestBlock(_event, viewport));
+        Script.viewport.canvas.addEventListener("click", Script.removeBlock);
+        // @ts-ignore
+        Script.viewport.canvas.addEventListener("contextmenu", Script.placeBlock);
         ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, update);
         // ƒ.Loop.start();  // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
     }
     function update(_event) {
         // ƒ.Physics.simulate();  // if physics is included and used
-        viewport.draw();
+        Script.viewport.draw();
         ƒ.AudioManager.default.update();
     }
 })(Script || (Script = {}));

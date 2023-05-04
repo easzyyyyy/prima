@@ -14,46 +14,30 @@ namespace Script {
         }
     }
 
-    export function pickNearestBlock(_event: PointerEvent, viewport: ƒ.Viewport) {
-        let blocksList: ƒ.Node[] = []
-
-        // @ts-ignore
-        viewport.getBranch().addEventListener(_event.type, hit);
-
-        // No _event.pick here, how to get the list
-        // @ts-ignore
-        // let pick = _event.pick;
-        viewport.draw();
-        viewport.dispatchPointerEvent(_event);
-
-
-        function hit(_event: PointerEvent): void {
-            let node: ƒ.Node = <ƒ.Node>_event.target;
-            if (node.name == "Block") {
-                blocksList.push(node);
-            }
-        }
-
-        blocksList.sort((a, b) => {
-            const cameraTranslation = viewport.camera.mtxWorld.translation;
-            const distanceA: number = cameraTranslation.getDistance(a.mtxWorld.translation);
-            const distanceB: number = cameraTranslation.getDistance(b.mtxWorld.translation);
-
-            console.log(distanceA);
-
-            return distanceA - distanceB;
-        })
-
-        // @ts-ignore
-        viewport.getBranch().removeEventListener("click", hit);
-
-        return blocksList.length > 0 ? blocksList[0] : null;
+    export function getSortedPicksByCamera(_event: PointerEvent): ƒ.Pick[] {
+        let picks: ƒ.Pick[] = ƒ.Picker.pickViewport(viewport, new ƒ.Vector2(_event.clientX, _event.clientY));
+        picks.sort((_a, _b) => _a.zBuffer - _b.zBuffer);
+        return picks;
     }
 
-    export function removeNearestBlock(_event: PointerEvent, viewport: ƒ.Viewport) {
-        const block: ƒ.Node = pickNearestBlock(_event, viewport);
+    export function removeBlock(_event: PointerEvent) {
+        const block: ƒ.Node = getSortedPicksByCamera(_event)[0]?.node;
         if (block) {
             block.getParent().removeChild(block);
+            viewport.draw();
+        }
+    }
+
+    export function placeBlock(_event: PointerEvent) {
+        const nearestPick = getSortedPicksByCamera(_event)[0]
+        const block: ƒ.Node = nearestPick?.node;
+        if (block) {
+            const position = ƒ.Vector3.SUM(block.mtxLocal.translation, nearestPick.normal)
+            const color = new ƒ.Color(255, 0, 0);
+            const newBlock = new Block(position, color);
+
+            block.getParent().addChild(newBlock);
+            viewport.draw();
         }
     }
 }
