@@ -20,24 +20,36 @@ namespace Script {
         return picks;
     }
 
-    export function removeBlock(_event: PointerEvent) {
-        const block: ƒ.Node = getSortedPicksByCamera(_event)[0]?.node;
-        if (block) {
-            block.getParent().removeChild(block);
-            viewport.draw();
-        }
+    export function removeBlock(block: ƒ.Node) {
+        block.getParent().removeChild(block);
     }
 
-    export function placeBlock(_event: PointerEvent) {
-        const nearestPick = getSortedPicksByCamera(_event)[0]
-        const block: ƒ.Node = nearestPick?.node;
-        if (block) {
-            const position = ƒ.Vector3.SUM(block.mtxLocal.translation, nearestPick.normal)
-            const color = new ƒ.Color(255, 0, 0);
-            const newBlock = new Block(position, color);
+    export function placeBlock(parent: ƒ.Node, position: ƒ.Vector3, color: ƒ.Color) {
+        const newBlock = new Block(position, color);
+        parent.addChild(newBlock);
+    }
 
-            block.getParent().addChild(newBlock);
-            viewport.draw();
+    export function interactWithBlock(_event: PointerEvent) {
+        const nearestPick = getSortedPicksByCamera(_event)[0];
+        const block: ƒ.Node = nearestPick?.node;
+
+        if (!block) return;
+
+        switch (_event.button) {
+            case 0:
+                removeBlock(block);
+                break;
+
+            case 2:
+                const position = ƒ.Vector3.SUM(block.mtxLocal.translation, nearestPick.normal);
+                const color = new ƒ.Color(255, 0, 0);
+                placeBlock(block.getParent(), position, color);
+                break;
+
+            default:
+                break;
         }
+
+        viewport.draw();
     }
 }

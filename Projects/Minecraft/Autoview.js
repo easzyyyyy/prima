@@ -1,15 +1,15 @@
 /**
- * Startup script to display a graph given with the resource file referred to from the html document, 
+ * Startup script to display a graph given with the resource file referred to from the html document,
  * play its sound and add an interactive orbit camera.
- * 
- * It is highly recommended to use TypeScript for further coding. 
+ *
+ * It is highly recommended to use TypeScript for further coding.
  * Your recommended structure for coding and some starter code is already set up for you in the folder "Script".
  * However, the code below is written in Javascript, so no compilation is required to get started.
  * The types are annotated as comments here and may become regular Javascript-code as this TC39-Proposal progresses {@link https://github.com/tc39/proposal-type-annotations}
- * 
- * Do not extend this file, but use it as a template to transfer some of its functionality to your own code. 
+ *
+ * Do not extend this file, but use it as a template to transfer some of its functionality to your own code.
  * This file will should disappear as you progress...
- * 
+ *
  * Have fun creating with FUDGE!
  * @author: Jirka Dell'Oro-Friedl, HFU, 2022
  */
@@ -52,7 +52,7 @@ async function startInteractiveViewport(_graphId)/* : void */ {
   viewport.initialize("InteractiveViewport", graph, cmpCamera, canvas);
   ƒ.Debug.log("Viewport:", viewport);
   // make the camera interactive (complex method in FudgeAid)
-  let cameraOrbit/* : ƒ.Node */ = ƒAid.Viewport.expandCameraToInteractiveOrbit(viewport);
+  // let cameraOrbit/* : ƒ.Node */ = ƒAid.Viewport.expandCameraToInteractiveOrbit(viewport);
 
   // hide the cursor when interacting, also suppressing right-click menu
   canvas.addEventListener("mousedown", canvas.requestPointerLock);
@@ -66,7 +66,7 @@ async function startInteractiveViewport(_graphId)/* : void */ {
   // ƒ.Debug.log("Audio:", ƒ.AudioManager.default);
 
   // draw viewport once for immediate feedback
-  ƒ.Render.prepare(cameraOrbit);
+  // ƒ.Render.prepare(cameraOrbit);
   viewport.draw();
 
   // dispatch event to signal startup done

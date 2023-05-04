@@ -9,14 +9,13 @@ var Script;
             super("Block");
             this.addComponent(new ƒ.ComponentTransform(ƒ.Matrix4x4.TRANSLATION(position)));
             this.addComponent(new ƒ.ComponentMesh(Block.mesh));
+            this.addComponent(new ƒ.ComponentRigidbody(100, ƒ.BODY_TYPE.STATIC, ƒ.COLLIDER_TYPE.CUBE));
             let cmpMaterial = new ƒ.ComponentMaterial(Block.material);
             cmpMaterial.clrPrimary = color;
             this.addComponent(cmpMaterial);
-            // let cmpPick: ƒ.ComponentPick = new ƒ.ComponentPick();
-            // cmpPick.pick = ƒ.PICK.RADIUS;
-            // this.addComponent(cmpPick);
             let cmpPick = new ƒ.ComponentPick();
             cmpPick.pick = ƒ.PICK.CAMERA;
+            // cmpPick.pick = ƒ.PICK.RADIUS;
             this.addComponent(cmpPick);
         }
     }
@@ -81,26 +80,35 @@ var Script;
         return picks;
     }
     Script.getSortedPicksByCamera = getSortedPicksByCamera;
-    function removeBlock(_event) {
-        const block = getSortedPicksByCamera(_event)[0]?.node;
-        if (block) {
-            block.getParent().removeChild(block);
-            Script.viewport.draw();
-        }
+    function removeBlock(block) {
+        block.getParent().removeChild(block);
     }
     Script.removeBlock = removeBlock;
-    function placeBlock(_event) {
-        const nearestPick = getSortedPicksByCamera(_event)[0];
-        const block = nearestPick?.node;
-        if (block) {
-            const position = ƒ.Vector3.SUM(block.mtxLocal.translation, nearestPick.normal);
-            const color = new ƒ.Color(255, 0, 0);
-            const newBlock = new Script.Block(position, color);
-            block.getParent().addChild(newBlock);
-            Script.viewport.draw();
-        }
+    function placeBlock(parent, position, color) {
+        const newBlock = new Script.Block(position, color);
+        parent.addChild(newBlock);
     }
     Script.placeBlock = placeBlock;
+    function interactWithBlock(_event) {
+        const nearestPick = getSortedPicksByCamera(_event)[0];
+        const block = nearestPick?.node;
+        if (!block)
+            return;
+        switch (_event.button) {
+            case 0:
+                removeBlock(block);
+                break;
+            case 2:
+                const position = ƒ.Vector3.SUM(block.mtxLocal.translation, nearestPick.normal);
+                const color = new ƒ.Color(255, 0, 0);
+                placeBlock(block.getParent(), position, color);
+                break;
+            default:
+                break;
+        }
+        Script.viewport.draw();
+    }
+    Script.interactWithBlock = interactWithBlock;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
@@ -111,22 +119,52 @@ var Script;
     async function start(_event) {
         Script.viewport = _event.detail;
         // Move the default camera
-        Script.viewport.camera.mtxPivot.rotateY(0);
-        Script.viewport.camera.mtxPivot.translateZ(0);
-        Script.viewport.camera.mtxPivot.translateX(0);
+        Script.viewport.camera.mtxPivot.rotateY(-45);
+        Script.viewport.camera.mtxPivot.translateX(2.5);
+        Script.viewport.camera.mtxPivot.translateY(2.5);
+        Script.viewport.camera.mtxPivot.translateZ(-15);
         // Create map
         Script.createMap(5, 5, 5, Script.viewport.getBranch());
         // @ts-ignore
-        Script.viewport.canvas.addEventListener("click", Script.removeBlock);
-        // @ts-ignore
-        Script.viewport.canvas.addEventListener("contextmenu", Script.placeBlock);
+        Script.viewport.canvas.addEventListener("pointerdown", Script.interactWithBlock);
+        // Do not display the context menu on right click
+        Script.viewport.canvas.addEventListener("contextmenu", (_event) => {
+            _event.preventDefault();
+            return false;
+        });
+        // Create Steve
+        const position = new ƒ.Vector3(1, 10, 1);
+        const color = new ƒ.Color(0, 0, 255);
+        const block = new Script.Steve(position, color);
+        Script.viewport.getBranch().addChild(block);
         ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, update);
-        // ƒ.Loop.start();  // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
+        ƒ.Loop.start(); // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
     }
     function update(_event) {
-        // ƒ.Physics.simulate();  // if physics is included and used
+        ƒ.Physics.simulate(); // if physics is included and used
         Script.viewport.draw();
-        ƒ.AudioManager.default.update();
+        // ƒ.AudioManager.default.update();
     }
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
+    var ƒ = FudgeCore;
+    class Steve extends ƒ.Node {
+        static mesh = new ƒ.MeshCube("SteveMesh");
+        static material = new ƒ.Material("SteveMaterial", ƒ.ShaderFlat, new ƒ.CoatRemissive());
+        constructor(position, color) {
+            super("Steve");
+            this.addComponent(new ƒ.ComponentTransform(ƒ.Matrix4x4.TRANSLATION(position)));
+            this.addComponent(new ƒ.ComponentMesh(Script.Block.mesh));
+            this.addComponent(new ƒ.ComponentRigidbody(100, ƒ.BODY_TYPE.DYNAMIC, ƒ.COLLIDER_TYPE.CUBE));
+            let cmpMaterial = new ƒ.ComponentMaterial(Script.Block.material);
+            cmpMaterial.clrPrimary = color;
+            this.addComponent(cmpMaterial);
+            let cmpPick = new ƒ.ComponentPick();
+            cmpPick.pick = ƒ.PICK.CAMERA;
+            this.addComponent(cmpPick);
+        }
+    }
+    Script.Steve = Steve;
 })(Script || (Script = {}));
 //# sourceMappingURL=Script.js.map
