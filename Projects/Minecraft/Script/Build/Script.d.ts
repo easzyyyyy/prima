@@ -26,6 +26,7 @@ declare namespace Script {
 declare namespace Script {
     import ƒ = FudgeCore;
     let viewport: ƒ.Viewport;
+    let steve: Steve;
 }
 declare namespace Script {
     import ƒ = FudgeCore;
@@ -33,5 +34,8 @@ declare namespace Script {
         static mesh: ƒ.MeshCube;
         static material: ƒ.Material;
         constructor(position: ƒ.Vector3, color: ƒ.Color);
+        scale(): void;
+        setCamera(): void;
+        control(): void;
     }
 }
