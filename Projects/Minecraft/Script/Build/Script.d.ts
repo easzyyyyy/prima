@@ -30,12 +30,16 @@ declare namespace Script {
 }
 declare namespace Script {
     import ƒ = FudgeCore;
-    class Steve extends ƒ.Node {
-        static mesh: ƒ.MeshCube;
-        static material: ƒ.Material;
-        constructor(position: ƒ.Vector3, color: ƒ.Color);
-        scale(): void;
+    class Steve {
+        isGrounded: boolean;
+        state: string;
+        node: ƒ.Node;
+        geometry: ƒ.Node;
+        constructor(node: ƒ.Node);
+        collides(_event: ƒ.EventPhysics, steve: Steve): void;
         setCamera(): void;
+        setAnimation(name: string, playmode?: ƒ.ANIMATION_PLAYMODE): void;
+        animate(): void;
         control(): void;
     }
 }

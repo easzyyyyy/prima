@@ -106,7 +106,6 @@ var Script;
             default:
                 break;
         }
-        Script.viewport.draw();
     }
     Script.interactWithBlock = interactWithBlock;
 })(Script || (Script = {}));
@@ -114,25 +113,26 @@ var Script;
 (function (Script) {
     var ƒ = FudgeCore;
     ƒ.Debug.info("Main Program Template running!");
+    // enum MINECRAFT {
+    //     STEVE_COLLIDED = 'steveCollided'
+    // }
     // @ts-ignore
     document.addEventListener("interactiveViewportStarted", start);
     async function start(_event) {
         Script.viewport = _event.detail;
         // View the colliders wireframe
         Script.viewport.physicsDebugMode = ƒ.PHYSICS_DEBUGMODE.COLLIDERS;
-        // viewport.camera.mtxPivot.rotateY(-45);
-        // viewport.camera.mtxPivot.translateX(2.5);
-        // viewport.camera.mtxPivot.translateY(2.5);
-        // viewport.camera.mtxPivot.translateZ(-15);
         // Create map
-        Script.createMap(5, 5, 5, Script.viewport.getBranch());
+        Script.createMap(9, 1, 9, Script.viewport.getBranch());
         // Create Steve
-        const position = new ƒ.Vector3(1, 10, 1);
-        const color = new ƒ.Color(0, 0, 255);
-        Script.steve = new Script.Steve(position, color);
-        Script.viewport.getBranch().addChild(Script.steve);
+        const steveNode = Script.viewport.getBranch().getChildrenByName("Steve")[0];
+        Script.steve = new Script.Steve(steveNode);
         // @ts-ignore
         Script.viewport.canvas.addEventListener("pointerdown", Script.interactWithBlock);
+        // Dispatch event example
+        // viewport.getBranch().addEventListener(MINECRAFT.STEVE_COLLIDED, (_event: Event) => {
+        //     console.log(_event);
+        // });
         // Do not display the context menu on right click
         Script.viewport.canvas.addEventListener("contextmenu", (_event) => {
             _event.preventDefault();
@@ -143,6 +143,7 @@ var Script;
     }
     function update(_event) {
         Script.steve.control();
+        Script.steve.animate();
         ƒ.Physics.simulate(); // If physics is included and used
         Script.viewport.draw();
         // ƒ.AudioManager.default.update();
@@ -151,86 +152,133 @@ var Script;
 var Script;
 (function (Script) {
     var ƒ = FudgeCore;
-    class Steve extends ƒ.Node {
-        static mesh = new ƒ.MeshCube("SteveMesh");
-        static material = new ƒ.Material("SteveMaterial", ƒ.ShaderFlat, new ƒ.CoatRemissive());
-        constructor(position, color) {
-            super("Steve");
-            this.addComponent(new ƒ.ComponentTransform(ƒ.Matrix4x4.TRANSLATION(position)));
-            this.addComponent(new ƒ.ComponentMesh(Script.Block.mesh));
-            this.addComponent(new ƒ.ComponentRigidbody(100, ƒ.BODY_TYPE.DYNAMIC, ƒ.COLLIDER_TYPE.CAPSULE));
-            this.getComponent(ƒ.ComponentRigidbody).effectRotation = ƒ.Vector3.Y();
-            let cmpMaterial = new ƒ.ComponentMaterial(Script.Block.material);
-            cmpMaterial.clrPrimary = color;
-            this.addComponent(cmpMaterial);
+    class Steve {
+        isGrounded = false;
+        state = "Idle";
+        node = null;
+        geometry = null;
+        constructor(node) {
+            this.node = node;
+            this.geometry = this.node.getChildrenByName("Geometry")[0];
+            // this.addComponent(new ƒ.ComponentTransform(ƒ.Matrix4x4.TRANSLATION(position)));
+            // this.addComponent(new ƒ.ComponentMesh(Block.mesh));
+            // this.addComponent(new ƒ.ComponentRigidbody(100, ƒ.BODY_TYPE.DYNAMIC, ƒ.COLLIDER_TYPE.CAPSULE));
+            const cmpRigidBody = this.geometry.getComponent(ƒ.ComponentRigidbody);
+            cmpRigidBody.effectRotation = ƒ.Vector3.Y();
+            cmpRigidBody.dampTranslation = 1;
+            cmpRigidBody.dampRotation = 1;
+            cmpRigidBody.friction = 0;
+            cmpRigidBody.addEventListener("ColliderEnteredCollision" /* ƒ.EVENT_PHYSICS.COLLISION_ENTER */, (_event) => {
+                this.collides(_event, this);
+            });
             let cmpPick = new ƒ.ComponentPick();
             cmpPick.pick = ƒ.PICK.CAMERA;
-            this.addComponent(cmpPick);
-            this.scale();
+            this.node.addComponent(cmpPick);
             this.setCamera();
         }
-        scale() {
-            this.getComponent(ƒ.ComponentMesh).mtxPivot.scaleX(0.5);
-            this.getComponent(ƒ.ComponentMesh).mtxPivot.scaleZ(0.5);
-            this.getComponent(ƒ.ComponentMesh).mtxPivot.scaleY(2);
-            // this.getComponent(ƒ.ComponentRigidbody).mtxPivot.scaleX(0.5);
-            // this.getComponent(ƒ.ComponentRigidbody).mtxPivot.scaleY(0.5);
-            // this.getComponent(ƒ.ComponentRigidbody).mtxPivot.scaleZ(0.5);
+        collides(_event, steve) {
+            // @ts-ignore
+            steve.isGrounded = true;
+            // Dispatch event and custom event example
+            // const customEvent: CustomEvent = new CustomEvent('steveCollided', {bubbles: true, detail: steve.mtxWorld.translation})
+            // this.dispatchEvent(customEvent)
+            // const vectorCollision: ƒ.Vector3 = ƒ.Vector3.DIFFERENCE(_event.collisionPoint, steve.mtxWorld.translation);
+            // if (Math.abs(vectorCollision.x) <= 0.1 && Math.abs(vectorCollision.z) <= 0.1 && vectorCollision.y < 0) {
+            // }
         }
         setCamera() {
+            // const cameraNode = new ƒ.Node("CameraNode");
+            Script.viewport.camera.attachToNode(this.geometry);
+            // cameraNode.addComponent(new ƒ.ComponentTransform(new ƒ.Matrix4x4));
+            // cameraNode.addComponent(new ƒ.ComponentRigidbody(10, ƒ.BODY_TYPE.DYNAMIC, ƒ.COLLIDER_TYPE.SPHERE));
+            // const cameraRigidBody = cameraNode.getComponent(ƒ.ComponentRigidbody);
+            // this.node.addChild(cameraNode);
             // Attach camera to Steve
-            Script.viewport.camera.attachToNode(this);
+            // const steveRigidBody = this.getComponent(ƒ.ComponentRigidbody);
+            // this.addComponent(new ƒ.JointPrismatic);
+            // const steveJoint = this.getComponent(ƒ.JointPrismatic);
+            // steveJoint.connectNode(cameraNode);
             // Move the default camera
-            Script.viewport.camera.mtxPivot.translateY(1);
-            Script.viewport.camera.mtxPivot.rotateX(60);
+            Script.viewport.camera.mtxPivot.translateY(0);
+            Script.viewport.camera.mtxPivot.translateZ(-5);
+            // viewport.camera.mtxPivot.rotateX(60);
+        }
+        setAnimation(name, playmode = ƒ.ANIMATION_PLAYMODE.LOOP) {
+            const cmpAnimator = this.geometry.getComponent(ƒ.ComponentAnimator);
+            const animation = ƒ.Project.getResourcesByName(name)[0];
+            if (this.state == name && cmpAnimator.animation != animation) {
+                cmpAnimator.playmode = playmode;
+                cmpAnimator.animation = animation;
+            }
+        }
+        animate() {
+            const cmpAnimator = this.geometry.getComponent(ƒ.ComponentAnimator);
+            const animation = ƒ.Project.getResourcesByName(this.state)[0];
+            if (cmpAnimator.animation != animation) {
+                if (this.state == "Jump") {
+                    cmpAnimator.playmode = ƒ.ANIMATION_PLAYMODE.PLAY_ONCE;
+                    cmpAnimator.animation = animation;
+                }
+                else if (this.isGrounded) {
+                    cmpAnimator.playmode = ƒ.ANIMATION_PLAYMODE.LOOP;
+                    cmpAnimator.animation = animation;
+                }
+            }
         }
         control() {
-            const rigidBody = this.getComponent(ƒ.ComponentRigidbody);
+            const rigidBody = this.geometry.getComponent(ƒ.ComponentRigidbody);
             let movementSpeed = 6;
             let horizontalRotationSpeed = 5;
-            let verticalRotationSpeed = 2;
             let xVelocity = 0;
             let yVelocity = 0;
             let zVelocity = 0;
             let yRotationVelocity = 0;
-            let xRotationVelocity = 0;
+            this.state = "Idle";
+            // Move Steve
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.D])) {
                 xVelocity -= movementSpeed;
+                this.state = "Walk";
             }
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.A])) {
                 xVelocity += movementSpeed;
+                this.state = "Walk";
             }
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.W])) {
                 zVelocity += movementSpeed;
+                this.state = "Walk";
             }
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.S])) {
                 zVelocity -= movementSpeed;
+                this.state = "Walk";
             }
+            // Look left and right
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
                 yRotationVelocity -= horizontalRotationSpeed;
             }
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT])) {
                 yRotationVelocity += horizontalRotationSpeed;
             }
+            // Look up and down
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_UP])) {
-                xRotationVelocity -= verticalRotationSpeed;
+                Script.viewport.camera.mtxPivot.rotateX(-1);
             }
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_DOWN])) {
-                xRotationVelocity += verticalRotationSpeed;
+                Script.viewport.camera.mtxPivot.rotateX(1);
             }
+            // Jump
             if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.SPACE])) {
-                if (Math.abs(rigidBody.getVelocity().y) <= 0.1) {
+                if (this.isGrounded) {
                     yVelocity += 5;
+                    this.isGrounded = false;
+                    this.state = "Jump";
                 }
             }
             const currentVelocity = rigidBody.getVelocity();
             let newVelocity = new ƒ.Vector3(xVelocity, 0, zVelocity);
-            newVelocity = ƒ.Vector3.TRANSFORMATION(newVelocity, this.mtxLocal, false);
+            newVelocity = ƒ.Vector3.TRANSFORMATION(newVelocity, this.geometry.mtxLocal, false);
             newVelocity.y = currentVelocity.y + yVelocity;
             rigidBody.setVelocity(newVelocity);
-            let newRotation = new ƒ.Vector3(xRotationVelocity, 0, 0);
-            newRotation = ƒ.Vector3.TRANSFORMATION(newRotation, this.mtxLocal, false);
-            newRotation.y = yRotationVelocity;
+            let newRotation = new ƒ.Vector3(0, yRotationVelocity, 0);
             rigidBody.setAngularVelocity(newRotation);
         }
     }

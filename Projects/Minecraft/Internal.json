@@ -1,14 +1,7 @@
 {
-  "MeshCube|2023-04-20T13:18:41.384Z|81585": {
-    "ƒ.MeshCube": {
-      "idResource": "MeshCube|2023-04-20T13:18:41.384Z|81585",
-      "name": "Cube",
-      "type": "MeshCube"
-    }
-  },
   "Material|2023-04-20T13:18:46.029Z|44010": {
     "ƒ.Material": {
-      "name": "ShaderFlat",
+      "name": "FlatMaterial",
       "idResource": "Material|2023-04-20T13:18:46.029Z|44010",
       "shader": "ShaderFlat",
       "coat": {
@@ -16,6 +9,998 @@
           "color": "[1, 1, 1, 1]",
           "diffuse": 1,
           "specular": 0
+        }
+      }
+    }
+  },
+  "Animation|2023-05-22T15:07:17.940Z|84529": {
+    "ƒ.Animation": {
+      "idResource": "Animation|2023-05-22T15:07:17.940Z|84529",
+      "name": "Walk",
+      "labels": {},
+      "events": {},
+      "framesPerSecond": 60,
+      "animationStructure": {
+        "children": {
+          "LeftLeg": {
+            "components": {
+              "ComponentTransform": [
+                {
+                  "mtxLocal": {
+                    "rotation": {
+                      "x": {
+                        "keys": [
+                          {
+                            "time": null,
+                            "value": 0,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 0,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 0,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 0,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 0,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 0,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 1,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 2,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 3,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 4,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 4,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 4,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 4,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 4,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 4,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 4,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 4,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 5,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 6,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 7,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 8,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 9,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 10,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 11,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 12,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 13,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 14,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 15,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 16,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 17,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 18,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 19,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 20,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 21,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 22,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 23,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 24,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 25,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 26,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 27,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 37,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 47,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 48,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 47,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 46,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 45,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 44,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 43,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 42,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 41,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": null,
+                            "value": 40,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": 0,
+                            "value": 40,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": 500,
+                            "value": -40,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": 1000,
+                            "value": 40,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          }
+                        ],
+                        "animationSequence": true
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "RightLeg": {
+            "components": {
+              "ComponentTransform": [
+                {
+                  "mtxLocal": {
+                    "rotation": {
+                      "x": {
+                        "keys": [
+                          {
+                            "time": 0,
+                            "value": -40,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": 500,
+                            "value": 40.00041612804982,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": 1000,
+                            "value": -40,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          }
+                        ],
+                        "animationSequence": true
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "LeftArm": {
+            "components": {
+              "ComponentTransform": [
+                {
+                  "mtxLocal": {
+                    "rotation": {
+                      "x": {
+                        "keys": [
+                          {
+                            "time": 0,
+                            "value": -40,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": 500,
+                            "value": 40,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": 1000,
+                            "value": -40,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          }
+                        ],
+                        "animationSequence": true
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "RightArm": {
+            "components": {
+              "ComponentTransform": [
+                {
+                  "mtxLocal": {
+                    "rotation": {
+                      "x": {
+                        "keys": [
+                          {
+                            "time": 0,
+                            "value": 40,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": 500,
+                            "value": -40,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": 1000,
+                            "value": 40,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          }
+                        ],
+                        "animationSequence": true
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "Body": {
+            "children": {
+              "Head": {
+                "components": {
+                  "ComponentTransform": [
+                    {
+                      "mtxLocal": {
+                        "rotation": {
+                          "y": {
+                            "keys": [
+                              {
+                                "time": 0,
+                                "value": 0,
+                                "slopeIn": 0,
+                                "slopeOut": 0,
+                                "constant": false
+                              }
+                            ],
+                            "animationSequence": true
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "MeshCube|2023-05-22T15:09:17.739Z|50138": {
+    "ƒ.MeshCube": {
+      "idResource": "MeshCube|2023-05-22T15:09:17.739Z|50138",
+      "name": "Cube",
+      "type": "MeshCube"
+    }
+  },
+  "Animation|2023-05-22T19:27:38.264Z|00372": {
+    "ƒ.Animation": {
+      "idResource": "Animation|2023-05-22T19:27:38.264Z|00372",
+      "name": "Idle",
+      "labels": {},
+      "events": {},
+      "framesPerSecond": 60,
+      "animationStructure": {
+        "children": {
+          "Body": {
+            "children": {
+              "Head": {
+                "components": {
+                  "ComponentTransform": [
+                    {
+                      "mtxLocal": {
+                        "rotation": {
+                          "y": {
+                            "keys": [
+                              {
+                                "time": null,
+                                "value": 0,
+                                "slopeIn": 0,
+                                "slopeOut": 0,
+                                "constant": false
+                              },
+                              {
+                                "time": null,
+                                "value": 0,
+                                "slopeIn": 0,
+                                "slopeOut": 0,
+                                "constant": false
+                              },
+                              {
+                                "time": null,
+                                "value": 0,
+                                "slopeIn": 0,
+                                "slopeOut": 0,
+                                "constant": false
+                              },
+                              {
+                                "time": null,
+                                "value": 0,
+                                "slopeIn": 0,
+                                "slopeOut": 0,
+                                "constant": false
+                              },
+                              {
+                                "time": null,
+                                "value": 1,
+                                "slopeIn": 0,
+                                "slopeOut": 0,
+                                "constant": false
+                              },
+                              {
+                                "time": null,
+                                "value": 2,
+                                "slopeIn": 0,
+                                "slopeOut": 0,
+                                "constant": false
+                              },
+                              {
+                                "time": null,
+                                "value": 3,
+                                "slopeIn": 0,
+                                "slopeOut": 0,
+                                "constant": false
+                              },
+                              {
+                                "time": null,
+                                "value": 4,
+                                "slopeIn": 0,
+                                "slopeOut": 0,
+                                "constant": false
+                              },
+                              {
+                                "time": null,
+                                "value": 5,
+                                "slopeIn": 0,
+                                "slopeOut": 0,
+                                "constant": false
+                              },
+                              {
+                                "time": null,
+                                "value": 6,
+                                "slopeIn": 0,
+                                "slopeOut": 0,
+                                "constant": false
+                              },
+                              {
+                                "time": null,
+                                "value": 7,
+                                "slopeIn": 0,
+                                "slopeOut": 0,
+                                "constant": false
+                              },
+                              {
+                                "time": null,
+                                "value": 8,
+                                "slopeIn": 0,
+                                "slopeOut": 0,
+                                "constant": false
+                              },
+                              {
+                                "time": null,
+                                "value": 9,
+                                "slopeIn": 0,
+                                "slopeOut": 0,
+                                "constant": false
+                              },
+                              {
+                                "time": null,
+                                "value": 10,
+                                "slopeIn": 0,
+                                "slopeOut": 0,
+                                "constant": false
+                              },
+                              {
+                                "time": 0,
+                                "value": 0,
+                                "slopeIn": 0,
+                                "slopeOut": 0,
+                                "constant": false
+                              },
+                              {
+                                "time": 1000,
+                                "value": 20,
+                                "slopeIn": 0,
+                                "slopeOut": 0,
+                                "constant": false
+                              },
+                              {
+                                "time": 3000,
+                                "value": -19.99981481481481,
+                                "slopeIn": 0,
+                                "slopeOut": 0,
+                                "constant": false
+                              },
+                              {
+                                "time": 4000,
+                                "value": 0,
+                                "slopeIn": 0,
+                                "slopeOut": 0,
+                                "constant": false
+                              }
+                            ],
+                            "animationSequence": true
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "LeftLeg": {
+            "components": {
+              "ComponentTransform": [
+                {
+                  "mtxLocal": {
+                    "rotation": {
+                      "x": {
+                        "keys": [
+                          {
+                            "time": 0,
+                            "value": 0,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          }
+                        ],
+                        "animationSequence": true
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "RightLeg": {
+            "components": {
+              "ComponentTransform": [
+                {
+                  "mtxLocal": {
+                    "rotation": {
+                      "x": {
+                        "keys": [
+                          {
+                            "time": 0,
+                            "value": 0,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          }
+                        ],
+                        "animationSequence": true
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "LeftArm": {
+            "components": {
+              "ComponentTransform": [
+                {
+                  "mtxLocal": {
+                    "rotation": {
+                      "x": {
+                        "keys": [
+                          {
+                            "time": 0,
+                            "value": 0,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          }
+                        ],
+                        "animationSequence": true
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "RightArm": {
+            "components": {
+              "ComponentTransform": [
+                {
+                  "mtxLocal": {
+                    "rotation": {
+                      "x": {
+                        "keys": [
+                          {
+                            "time": 0,
+                            "value": 0,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          }
+                        ],
+                        "animationSequence": true
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "Animation|2023-05-22T19:36:43.580Z|31705": {
+    "ƒ.Animation": {
+      "idResource": "Animation|2023-05-22T19:36:43.580Z|31705",
+      "name": "Jump",
+      "labels": {},
+      "events": {},
+      "framesPerSecond": 60,
+      "animationStructure": {
+        "children": {
+          "Body": {
+            "children": {
+              "Head": {
+                "components": {
+                  "ComponentTransform": [
+                    {
+                      "mtxLocal": {
+                        "rotation": {
+                          "y": {
+                            "keys": [
+                              {
+                                "time": 0,
+                                "value": 0,
+                                "slopeIn": 0,
+                                "slopeOut": 0,
+                                "constant": false
+                              }
+                            ],
+                            "animationSequence": true
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "LeftArm": {
+            "components": {
+              "ComponentTransform": [
+                {
+                  "mtxLocal": {
+                    "rotation": {
+                      "x": {
+                        "keys": [
+                          {
+                            "time": null,
+                            "value": 0,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": 0,
+                            "value": 0,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": 500,
+                            "value": -20,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": 666.6666666666666,
+                            "value": 180,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          }
+                        ],
+                        "animationSequence": true
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "RightArm": {
+            "components": {
+              "ComponentTransform": [
+                {
+                  "mtxLocal": {
+                    "rotation": {
+                      "x": {
+                        "keys": [
+                          {
+                            "time": null,
+                            "value": 0,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": 0,
+                            "value": 0,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": 500,
+                            "value": -20,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          },
+                          {
+                            "time": 666.6666666666666,
+                            "value": 180,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          }
+                        ],
+                        "animationSequence": true
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "LeftLeg": {
+            "components": {
+              "ComponentTransform": [
+                {
+                  "mtxLocal": {
+                    "rotation": {
+                      "x": {
+                        "keys": [
+                          {
+                            "time": 549.4983333352334,
+                            "value": 0,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          }
+                        ],
+                        "animationSequence": true
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "RightLeg": {
+            "components": {
+              "ComponentTransform": [
+                {
+                  "mtxLocal": {
+                    "rotation": {
+                      "x": {
+                        "keys": [
+                          {
+                            "time": 549.4983333352334,
+                            "value": 0,
+                            "slopeIn": 0,
+                            "slopeOut": 0,
+                            "constant": false
+                          }
+                        ],
+                        "animationSequence": true
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
         }
       }
     }
@@ -62,66 +1047,419 @@
           }
         ]
       },
-      "children": [],
+      "children": [
+        {
+          "ƒ.Node": {
+            "name": "Steve",
+            "active": true,
+            "components": {},
+            "children": [
+              {
+                "ƒ.Node": {
+                  "name": "Geometry",
+                  "active": true,
+                  "components": {
+                    "ComponentAnimator": [
+                      {
+                        "ƒ.ComponentAnimator": {
+                          "Component": {
+                            "active": true
+                          },
+                          "idAnimation": "Animation|2023-05-22T19:36:43.580Z|31705",
+                          "playmode": "loop",
+                          "quantization": "continous",
+                          "scale": 1,
+                          "scaleWithGameTime": true,
+                          "animateInEditor": true
+                        }
+                      }
+                    ],
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[0, 10, 0]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ],
+                    "ComponentRigidbody": [
+                      {
+                        "ƒ.ComponentRigidbody": {
+                          "initialization": "TO_PIVOT",
+                          "friction": 0.2,
+                          "restitution": 0.2,
+                          "mass": 80,
+                          "dampTranslation": 0.1,
+                          "dampRotation": 0.1,
+                          "effectGravity": 1,
+                          "typeBody": "DYNAMIC",
+                          "typeCollider": "CAPSULE",
+                          "isTrigger": false,
+                          "id": 0,
+                          "pivot": {
+                            "translation": "[0, -0.20000000298023224, 0]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1.2999998331069946, 1.7000004053115845, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "ƒ.Node": {
+                        "name": "Body",
+                        "active": true,
+                        "components": {
+                          "ComponentMesh": [
+                            {
+                              "ƒ.ComponentMesh": {
+                                "idMesh": "MeshCube|2023-05-22T15:09:17.739Z|50138",
+                                "pivot": {
+                                  "translation": "[0, 0, 0]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[1, 1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ],
+                          "ComponentTransform": [
+                            {
+                              "ƒ.ComponentTransform": {
+                                "local": {
+                                  "translation": "[0, 0, 0]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[0.6999999284744263, 1.2000000476837158, 0.4999999701976776]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ],
+                          "ComponentMaterial": [
+                            {
+                              "ƒ.ComponentMaterial": {
+                                "sortForAlpha": false,
+                                "clrPrimary": "[0.054901960784313725, 0.6823529411764706, 0.6823529411764706, 1]",
+                                "clrSecondary": "[1, 1, 1, 1]",
+                                "pivot": {
+                                  "translation": "[0, 0]",
+                                  "rotation": 0,
+                                  "scaling": "[1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                },
+                                "idMaterial": "Material|2023-04-20T13:18:46.029Z|44010"
+                              }
+                            }
+                          ]
+                        },
+                        "children": [
+                          {
+                            "ƒ.Node": {
+                              "name": "Head",
+                              "active": true,
+                              "components": {
+                                "ComponentMesh": [
+                                  {
+                                    "ƒ.ComponentMesh": {
+                                      "idMesh": "MeshCube|2023-05-22T15:09:17.739Z|50138",
+                                      "pivot": {
+                                        "translation": "[0, 0, 0]",
+                                        "rotation": "[0, 0, 0]",
+                                        "scaling": "[1, 1, 1]"
+                                      },
+                                      "Component": {
+                                        "active": true
+                                      }
+                                    }
+                                  }
+                                ],
+                                "ComponentTransform": [
+                                  {
+                                    "ƒ.ComponentTransform": {
+                                      "local": {
+                                        "translation": "[0, 0.75, 0]",
+                                        "rotation": "[0, 0, 0]",
+                                        "scaling": "[0.7999999523162842, 0.49999991059303284, 1.2000000476837158]"
+                                      },
+                                      "Component": {
+                                        "active": true
+                                      }
+                                    }
+                                  }
+                                ],
+                                "ComponentMaterial": [
+                                  {
+                                    "ƒ.ComponentMaterial": {
+                                      "sortForAlpha": false,
+                                      "clrPrimary": "[0.6627450980392157, 0.49019607843137253, 0.39215686274509803, 1]",
+                                      "clrSecondary": "[1, 1, 1, 1]",
+                                      "pivot": {
+                                        "translation": "[0, 0]",
+                                        "rotation": 0,
+                                        "scaling": "[1, 1]"
+                                      },
+                                      "Component": {
+                                        "active": true
+                                      },
+                                      "idMaterial": "Material|2023-04-20T13:18:46.029Z|44010"
+                                    }
+                                  }
+                                ]
+                              },
+                              "children": []
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "ƒ.Node": {
+                        "name": "LeftLeg",
+                        "active": true,
+                        "components": {
+                          "ComponentMesh": [
+                            {
+                              "ƒ.ComponentMesh": {
+                                "idMesh": "MeshCube|2023-05-22T15:09:17.739Z|50138",
+                                "pivot": {
+                                  "translation": "[0, -0.49999985098838806, 0]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[1, 1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ],
+                          "ComponentTransform": [
+                            {
+                              "ƒ.ComponentTransform": {
+                                "local": {
+                                  "translation": "[-0.20000001788139343, -0.5999999046325684, 0]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[0.2999999523162842, 1.100000023841858, 0.29999998211860657]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ],
+                          "ComponentMaterial": [
+                            {
+                              "ƒ.ComponentMaterial": {
+                                "sortForAlpha": false,
+                                "clrPrimary": "[0.28627450980392155, 0.27450980392156865, 0.592156862745098, 1]",
+                                "clrSecondary": "[1, 1, 1, 1]",
+                                "pivot": {
+                                  "translation": "[0, 0]",
+                                  "rotation": 0,
+                                  "scaling": "[1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                },
+                                "idMaterial": "Material|2023-04-20T13:18:46.029Z|44010"
+                              }
+                            }
+                          ]
+                        },
+                        "children": []
+                      }
+                    },
+                    {
+                      "ƒ.Node": {
+                        "name": "LeftArm",
+                        "active": true,
+                        "components": {
+                          "ComponentMesh": [
+                            {
+                              "ƒ.ComponentMesh": {
+                                "idMesh": "MeshCube|2023-05-22T15:09:17.739Z|50138",
+                                "pivot": {
+                                  "translation": "[0, -0.5, 0]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[1, 1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ],
+                          "ComponentTransform": [
+                            {
+                              "ƒ.ComponentTransform": {
+                                "local": {
+                                  "translation": "[-0.4799998998641968, 0.6000000238418579, 0]",
+                                  "rotation": "[18.01754379272461, 0, 0]",
+                                  "scaling": "[0.25, 1.25, 0.30000001192092896]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ],
+                          "ComponentMaterial": [
+                            {
+                              "ƒ.ComponentMaterial": {
+                                "sortForAlpha": false,
+                                "clrPrimary": "[0.6627450980392157, 0.49019607843137253, 0.39215686274509803, 1]",
+                                "clrSecondary": "[1, 1, 1, 1]",
+                                "pivot": {
+                                  "translation": "[0, 0]",
+                                  "rotation": 0,
+                                  "scaling": "[1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                },
+                                "idMaterial": "Material|2023-04-20T13:18:46.029Z|44010"
+                              }
+                            }
+                          ]
+                        },
+                        "children": []
+                      }
+                    },
+                    {
+                      "ƒ.Node": {
+                        "name": "RightLeg",
+                        "active": true,
+                        "components": {
+                          "ComponentMesh": [
+                            {
+                              "ƒ.ComponentMesh": {
+                                "idMesh": "MeshCube|2023-05-22T15:09:17.739Z|50138",
+                                "pivot": {
+                                  "translation": "[0, -0.49999985098838806, 0]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[1, 1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ],
+                          "ComponentTransform": [
+                            {
+                              "ƒ.ComponentTransform": {
+                                "local": {
+                                  "translation": "[0.19999995827674866, -0.5999999046325684, 0]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[0.2999999523162842, 1.100000023841858, 0.29999998211860657]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ],
+                          "ComponentMaterial": [
+                            {
+                              "ƒ.ComponentMaterial": {
+                                "sortForAlpha": false,
+                                "clrPrimary": "[0.28627450980392155, 0.27450980392156865, 0.592156862745098, 1]",
+                                "clrSecondary": "[1, 1, 1, 1]",
+                                "pivot": {
+                                  "translation": "[0, 0]",
+                                  "rotation": 0,
+                                  "scaling": "[1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                },
+                                "idMaterial": "Material|2023-04-20T13:18:46.029Z|44010"
+                              }
+                            }
+                          ]
+                        },
+                        "children": []
+                      }
+                    },
+                    {
+                      "ƒ.Node": {
+                        "name": "RightArm",
+                        "active": true,
+                        "components": {
+                          "ComponentMesh": [
+                            {
+                              "ƒ.ComponentMesh": {
+                                "idMesh": "MeshCube|2023-05-22T15:09:17.739Z|50138",
+                                "pivot": {
+                                  "translation": "[0, -0.5, 0]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[1, 1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ],
+                          "ComponentTransform": [
+                            {
+                              "ƒ.ComponentTransform": {
+                                "local": {
+                                  "translation": "[0.48000016808509827, 0.6000000238418579, 0]",
+                                  "rotation": "[18.01754379272461, 0, 0]",
+                                  "scaling": "[0.25, 1.25, 0.30000001192092896]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ],
+                          "ComponentMaterial": [
+                            {
+                              "ƒ.ComponentMaterial": {
+                                "sortForAlpha": false,
+                                "clrPrimary": "[0.6627450980392157, 0.49019607843137253, 0.39215686274509803, 1]",
+                                "clrSecondary": "[1, 1, 1, 1]",
+                                "pivot": {
+                                  "translation": "[0, 0]",
+                                  "rotation": 0,
+                                  "scaling": "[1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                },
+                                "idMaterial": "Material|2023-04-20T13:18:46.029Z|44010"
+                              }
+                            }
+                          ]
+                        },
+                        "children": []
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
       "idResource": "Graph|2023-04-20T13:17:34.899Z|20227",
-      "type": "Graph"
-    }
-  },
-  "Graph|2023-04-23T14:56:53.783Z|44663": {
-    "ƒ.Graph": {
-      "name": "Block",
-      "active": true,
-      "components": {
-        "ComponentMesh": [
-          {
-            "ƒ.ComponentMesh": {
-              "idMesh": "MeshCube|2023-04-20T13:18:41.384Z|81585",
-              "pivot": {
-                "translation": "[0, 0, 0]",
-                "rotation": "[0, 0, 0]",
-                "scaling": "[1, 1, 1]"
-              },
-              "Component": {
-                "active": true
-              }
-            }
-          }
-        ],
-        "ComponentMaterial": [
-          {
-            "ƒ.ComponentMaterial": {
-              "sortForAlpha": false,
-              "clrPrimary": "[0.4, 1, 0, 1]",
-              "clrSecondary": "[1, 1, 1, 1]",
-              "pivot": {
-                "translation": "[0, 0]",
-                "rotation": 0,
-                "scaling": "[1, 1]"
-              },
-              "Component": {
-                "active": true
-              },
-              "idMaterial": "Material|2023-04-20T13:18:46.029Z|44010"
-            }
-          }
-        ],
-        "ComponentTransform": [
-          {
-            "ƒ.ComponentTransform": {
-              "local": {
-                "translation": "[0, 0, 0]",
-                "rotation": "[0, 0, 0]",
-                "scaling": "[1, 1, 1]"
-              },
-              "Component": {
-                "active": true
-              }
-            }
-          }
-        ]
-      },
-      "children": [],
-      "idResource": "Graph|2023-04-23T14:56:53.783Z|44663",
       "type": "Graph"
     }
   }

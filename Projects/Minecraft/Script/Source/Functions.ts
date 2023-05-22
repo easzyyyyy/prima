@@ -49,7 +49,5 @@ namespace Script {
             default:
                 break;
         }
-
-        viewport.draw();
     }
 }
