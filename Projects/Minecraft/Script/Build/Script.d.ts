@@ -7,12 +7,42 @@ declare namespace Script {
     }
 }
 declare namespace Script {
+    import ƒAid = FudgeAid;
+    enum JOB {
+        IDLE = 0,
+        WALK = 1,
+        RUN = 2
+    }
+    export class StateMachine extends ƒAid.ComponentStateMachine<JOB> {
+        static readonly iSubclass: number;
+        private static instructions;
+        distanceWalk: number;
+        distanceRun: number;
+        private geometry;
+        private cmpBody;
+        constructor();
+        static get(): ƒAid.StateMachineInstructions<JOB>;
+        private static transitDefault;
+        private static actDefault;
+        private static actIdle;
+        private static actWalk;
+        private static actRun;
+        private static transitWalk;
+        private hndEvent;
+        private update;
+    }
+    export {};
+}
+declare namespace Script {
     import ƒ = FudgeCore;
-    class CustomComponentScript extends ƒ.ComponentScript {
+    class CreeperScript extends ƒ.ComponentScript {
         static readonly iSubclass: number;
         message: string;
+        geometry: ƒ.Node;
         constructor();
         hndEvent: (_event: Event) => void;
+        init(): void;
+        move(): void;
     }
 }
 declare namespace Script {
@@ -38,7 +68,6 @@ declare namespace Script {
         constructor(node: ƒ.Node);
         collides(_event: ƒ.EventPhysics, steve: Steve): void;
         setCamera(): void;
-        setAnimation(name: string, playmode?: ƒ.ANIMATION_PLAYMODE): void;
         animate(): void;
         control(): void;
     }

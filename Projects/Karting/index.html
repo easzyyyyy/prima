@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Minecraft</title>
+<title>Karting</title>
 <meta charset="utf-8" />
 <link rel="stylesheet" href="styles.css" />
 
 <!--Editor settings of this project-->
-<meta type="settings" autoview="Graph|2023-04-20T13:17:34.899Z|20227" project="{'name':'Minecraft','graphAutoView':'Graph|2023-04-20T13:17:34.899Z|20227'}" panels="[{'type':'PanelProject','state':{}},{'type':'PanelGraph','state':{'graph':'Graph|2023-04-20T13:17:34.899Z|20227'}}]" />
+<meta type="settings" autoview="Graph|2023-06-10T12:36:51.731Z|77372" project="{'name':'Karting','graphAutoView':'Graph|2023-06-10T12:36:51.731Z|77372'}" panels="[{'type':'PanelProject','state':{}},{'type':'PanelGraph','state':{'graph':'Graph|2023-06-10T12:36:51.731Z|77372'}}]" />
 
 <!--Activate the following line to include the FUDGE-version of Oimo-Physics. You may want to download a local copy to work offline and be independent from future changes!-->
 <script type="text/javascript" src="https://jirkadelloro.github.io/FUDGE/Physics/OimoPhysics.js"></script>
@@ -14,6 +14,7 @@
 <!--Load FUDGE. You may want to download local copies to work offline and be independent from future changes! Developers working on FUDGE itself may want to create symlinks-->
 <script type="text/javascript" src="https://jirkadelloro.github.io/FUDGE/Core/Build/FudgeCore.js"></script>
 <script type="text/javascript" src="https://jirkadelloro.github.io/FUDGE/Aid/Build/FudgeAid.js"></script>
+<script type="text/javascript" src="https://jirkadelloro.github.io/FUDGE/UserInterface/Build/FudgeUserInterface.js"></script>
 
 <!--Link internal resources. The editor only loads the first, but at runtime, multiple files can contribute-->
 <link type="resources" src="Internal.json" />
@@ -35,6 +36,20 @@
 <!--Canvas for FUDGE to render to-->
 <canvas class="fullscreen">
 </canvas>
+
+<div class="vui">
+    <input type="number" key="speed" name="speed" id="speed" value="0" />
+</div>
+
+
+
+
+
+
+
+
+
+
 
 
 

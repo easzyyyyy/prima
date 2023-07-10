@@ -24,12 +24,136 @@ var Script;
 var Script;
 (function (Script) {
     var ƒ = FudgeCore;
+    var ƒAid = FudgeAid;
     ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
-    class CustomComponentScript extends ƒ.ComponentScript {
+    let JOB;
+    (function (JOB) {
+        JOB[JOB["IDLE"] = 0] = "IDLE";
+        JOB[JOB["WALK"] = 1] = "WALK";
+        JOB[JOB["RUN"] = 2] = "RUN";
+    })(JOB || (JOB = {}));
+    class StateMachine extends ƒAid.ComponentStateMachine {
+        static iSubclass = ƒ.Component.registerSubclass(StateMachine);
+        static instructions = StateMachine.get();
+        distanceWalk = 5;
+        distanceRun = 2;
+        geometry;
+        cmpBody;
+        constructor() {
+            super();
+            this.instructions = StateMachine.instructions; // setup instructions with the static set
+            // Don't start when running in editor
+            if (ƒ.Project.mode == ƒ.MODE.EDITOR)
+                return;
+            // Listen to this component being added to or removed from a node
+            this.addEventListener("componentAdd" /* ƒ.EVENT.COMPONENT_ADD */, this.hndEvent);
+            this.addEventListener("componentRemove" /* ƒ.EVENT.COMPONENT_REMOVE */, this.hndEvent);
+            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, this.hndEvent);
+        }
+        static get() {
+            let setup = new ƒAid.StateMachineInstructions();
+            setup.transitDefault = StateMachine.transitDefault;
+            setup.actDefault = StateMachine.actDefault;
+            setup.setAction(JOB.IDLE, this.actIdle);
+            setup.setAction(JOB.WALK, this.actWalk);
+            setup.setAction(JOB.RUN, this.actRun);
+            setup.setTransition(JOB.IDLE, JOB.WALK, this.transitWalk);
+            return setup;
+        }
+        static transitDefault(_machine) {
+            // console.log("Transit to", _machine.stateNext);
+        }
+        static async actDefault(_machine) {
+            console.log(JOB[_machine.stateCurrent]);
+        }
+        static async actIdle(_machine) {
+            if (!Script.steve)
+                return;
+            const difference = ƒ.Vector3.DIFFERENCE(Script.steve.geometry.mtxWorld.translation, _machine.geometry.mtxWorld.translation);
+            if (difference.magnitude < _machine.distanceRun) {
+                _machine.transit(JOB.RUN);
+            }
+            else if (difference.magnitude < _machine.distanceWalk) {
+                _machine.transit(JOB.WALK);
+            }
+            _machine.cmpBody.setVelocity(ƒ.Vector3.ZERO());
+            StateMachine.actDefault(_machine);
+        }
+        static async actWalk(_machine) {
+            if (!Script.steve)
+                return;
+            const difference = ƒ.Vector3.DIFFERENCE(Script.steve.geometry.mtxWorld.translation, _machine.geometry.mtxWorld.translation);
+            if (difference.magnitude > _machine.distanceWalk) {
+                _machine.transit(JOB.IDLE);
+            }
+            else if (difference.magnitude < _machine.distanceRun) {
+                _machine.transit(JOB.RUN);
+            }
+            const direction = ƒ.Vector3.NORMALIZATION(difference, 1);
+            const currentVelocity = _machine.cmpBody.getVelocity();
+            const newVelocity = ƒ.Vector3.SCALE(direction, 2);
+            newVelocity.y = currentVelocity.y;
+            _machine.cmpBody.setVelocity(newVelocity);
+            StateMachine.actDefault(_machine);
+        }
+        static async actRun(_machine) {
+            if (!Script.steve)
+                return;
+            const difference = ƒ.Vector3.DIFFERENCE(Script.steve.geometry.mtxWorld.translation, _machine.geometry.mtxWorld.translation);
+            if (difference.magnitude > _machine.distanceWalk) {
+                _machine.transit(JOB.IDLE);
+            }
+            else if (difference.magnitude > _machine.distanceRun) {
+                _machine.transit(JOB.WALK);
+            }
+            const direction = ƒ.Vector3.NORMALIZATION(difference, 1);
+            const currentVelocity = _machine.cmpBody.getVelocity();
+            const newVelocity = ƒ.Vector3.SCALE(direction, 4);
+            newVelocity.y = currentVelocity.y;
+            _machine.cmpBody.setVelocity(newVelocity);
+            StateMachine.actDefault(_machine);
+        }
+        static transitWalk(_machine) {
+        }
+        // Activate the functions of this component as response to events
+        hndEvent = (_event) => {
+            switch (_event.type) {
+                case "componentAdd" /* ƒ.EVENT.COMPONENT_ADD */:
+                    ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, this.update);
+                    this.transit(JOB.IDLE);
+                    break;
+                case "componentRemove" /* ƒ.EVENT.COMPONENT_REMOVE */:
+                    this.removeEventListener("componentAdd" /* ƒ.EVENT.COMPONENT_ADD */, this.hndEvent);
+                    this.removeEventListener("componentRemove" /* ƒ.EVENT.COMPONENT_REMOVE */, this.hndEvent);
+                    ƒ.Loop.removeEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, this.update);
+                    break;
+                case "nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */:
+                    this.geometry = this.node.getChildrenByName("Geometry")[0];
+                    this.cmpBody = this.geometry.getComponent(ƒ.ComponentRigidbody);
+                    this.cmpBody.effectRotation = ƒ.Vector3.Y();
+                    this.cmpBody.dampTranslation = 1;
+                    this.cmpBody.dampRotation = 1;
+                    this.cmpBody.friction = 0;
+                    this.transit(JOB.IDLE);
+                    break;
+            }
+        };
+        update = (_event) => {
+            this.act();
+        };
+    }
+    Script.StateMachine = StateMachine;
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
+    var ƒ = FudgeCore;
+    ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
+    class CreeperScript extends ƒ.ComponentScript {
         // Register the script as component for use in the editor via drag&drop
-        static iSubclass = ƒ.Component.registerSubclass(CustomComponentScript);
+        static iSubclass = ƒ.Component.registerSubclass(CreeperScript);
         // Properties may be mutated by users in the editor via the automatically created user interface
-        message = "CustomComponentScript added to ";
+        message = "CreeperScript added to ";
+        geometry = null;
         constructor() {
             super();
             // Don't start when running in editor
@@ -45,6 +169,7 @@ var Script;
             switch (_event.type) {
                 case "componentAdd" /* ƒ.EVENT.COMPONENT_ADD */:
                     ƒ.Debug.log(this.message, this.node);
+                    this.node.addEventListener("renderPrepare" /* ƒ.EVENT.RENDER_PREPARE */, this.hndEvent);
                     break;
                 case "componentRemove" /* ƒ.EVENT.COMPONENT_REMOVE */:
                     this.removeEventListener("componentAdd" /* ƒ.EVENT.COMPONENT_ADD */, this.hndEvent);
@@ -53,10 +178,34 @@ var Script;
                 case "nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */:
                     // if deserialized the node is now fully reconstructed and access to all its components and children is possible
                     break;
+                case "renderPrepare" /* ƒ.EVENT.RENDER_PREPARE */:
+                    this.move();
+                    break;
             }
         };
+        init() {
+        }
+        move() {
+            if (!Script.steve)
+                return;
+            if (!this.geometry) {
+                this.geometry = this.node.getChildrenByName("Geometry")[0];
+                const cmpRigidBody = this.geometry.getComponent(ƒ.ComponentRigidbody);
+                cmpRigidBody.effectRotation = ƒ.Vector3.Y();
+                cmpRigidBody.dampTranslation = 1;
+                cmpRigidBody.dampRotation = 1;
+                cmpRigidBody.friction = 0;
+            }
+            const cmpRigidBody = this.geometry.getComponent(ƒ.ComponentRigidbody);
+            const difference = ƒ.Vector3.DIFFERENCE(Script.steve.geometry.mtxWorld.translation, this.geometry.mtxWorld.translation);
+            const direction = ƒ.Vector3.NORMALIZATION(difference, 1);
+            const currentVelocity = cmpRigidBody.getVelocity();
+            const newVelocity = ƒ.Vector3.SCALE(direction, 2);
+            newVelocity.y = currentVelocity.y;
+            cmpRigidBody.setVelocity(newVelocity);
+        }
     }
-    Script.CustomComponentScript = CustomComponentScript;
+    Script.CreeperScript = CreeperScript;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
@@ -202,14 +351,6 @@ var Script;
             Script.viewport.camera.mtxPivot.translateY(0);
             Script.viewport.camera.mtxPivot.translateZ(-5);
             // viewport.camera.mtxPivot.rotateX(60);
-        }
-        setAnimation(name, playmode = ƒ.ANIMATION_PLAYMODE.LOOP) {
-            const cmpAnimator = this.geometry.getComponent(ƒ.ComponentAnimator);
-            const animation = ƒ.Project.getResourcesByName(name)[0];
-            if (this.state == name && cmpAnimator.animation != animation) {
-                cmpAnimator.playmode = playmode;
-                cmpAnimator.animation = animation;
-            }
         }
         animate() {
             const cmpAnimator = this.geometry.getComponent(ƒ.ComponentAnimator);
