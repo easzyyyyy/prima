@@ -74,7 +74,7 @@ namespace Script {
         }
 
         playEngineSound() {
-            const engineSound: ƒ.Audio = new ƒ.Audio("/Sounds/engine.mp3");
+            const engineSound: ƒ.Audio = new ƒ.Audio("/prima/Projects/Karting/Sounds/engine.mp3");
             this.audio.setAudio(engineSound);
             this.audio.play(true);
             console.log(this.audio);
