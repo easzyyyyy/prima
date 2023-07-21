@@ -30,7 +30,7 @@ namespace Script {
         async loadTextures() {
             const trackTexture = new ƒ.TextureImage();
             // "/prima/Projects/Karting/Images/track_texture.jpg"
-            await trackTexture.load("../../Images/track_texture.jpg");
+            await trackTexture.load("/prima/Projects/Karting/Images/track_texture.jpg");
             const trackCoat = new ƒ.CoatRemissiveTextured(ƒ.Color.CSS("white"), trackTexture);
             const trackMaterial = new ƒ.Material("TrackTexture", ƒ.ShaderFlatTextured, trackCoat)
             const cpmTrackMaterial = new ƒ.ComponentMaterial(trackMaterial);
@@ -39,7 +39,7 @@ namespace Script {
 
             const pickTexture = new ƒ.TextureImage();
             // "/prima/Projects/Karting/Images/track_pick.jpg"
-            await pickTexture.load("../../Images/track_pick.jpg");
+            await pickTexture.load("/prima/Projects/Karting/Images/track_pick.jpg");
             const pickCoat = new ƒ.CoatRemissiveTextured(ƒ.Color.CSS("white"), pickTexture);
             const pickMaterial = new ƒ.Material("TrackTexture", ƒ.ShaderFlatTextured, pickCoat)
             const cpmPickMaterial = new ƒ.ComponentMaterial(pickMaterial);
