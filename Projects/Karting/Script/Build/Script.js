@@ -131,7 +131,7 @@ var Script;
         }
         playEngineSound() {
             // "/prima/Projects/Karting/Sounds/engine.mp3"
-            const engineSound = new ƒ.Audio("../../Sounds/engine.mp3");
+            const engineSound = new ƒ.Audio("/prima/Projects/Karting/Sounds/engine.mp3");
             this.audio.setAudio(engineSound);
             this.audio.play(true);
         }
@@ -380,14 +380,14 @@ var Script;
         async loadTextures() {
             const trackTexture = new ƒ.TextureImage();
             // "/prima/Projects/Karting/Images/track_texture.jpg"
-            await trackTexture.load("../../Images/track_texture.jpg");
+            await trackTexture.load("/prima/Projects/Karting/Images/track_texture.jpg");
             const trackCoat = new ƒ.CoatRemissiveTextured(ƒ.Color.CSS("white"), trackTexture);
             const trackMaterial = new ƒ.Material("TrackTexture", ƒ.ShaderFlatTextured, trackCoat);
             const cpmTrackMaterial = new ƒ.ComponentMaterial(trackMaterial);
             this.texture.addComponent(cpmTrackMaterial);
             const pickTexture = new ƒ.TextureImage();
             // "/prima/Projects/Karting/Images/track_pick.jpg"
-            await pickTexture.load("../../Images/track_pick.jpg");
+            await pickTexture.load("/prima/Projects/Karting/Images/track_pick.jpg");
             const pickCoat = new ƒ.CoatRemissiveTextured(ƒ.Color.CSS("white"), pickTexture);
             const pickMaterial = new ƒ.Material("TrackTexture", ƒ.ShaderFlatTextured, pickCoat);
             const cpmPickMaterial = new ƒ.ComponentMaterial(pickMaterial);
