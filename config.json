@@ -1,7 +1,0 @@
-{
-    "view": "first",
-    "maxVelocity": 50,
-    "accelerationForce": 100000,
-    "maxRotationVelocity": 5,
-    "rotationForce": 1000
-}
