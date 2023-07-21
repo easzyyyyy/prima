@@ -2,7 +2,7 @@
 var Script;
 (function (Script) {
     class Config {
-        static path = "/prima/Projects/Karting/Script/Source/config.json";
+        static path = "/prima/Projects/Karting/config.json";
         constructor() { }
         static async load() {
             const stringConfig = await (await fetch(this.path)).text();
