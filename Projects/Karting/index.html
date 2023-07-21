@@ -9,12 +9,12 @@
 <meta type="settings" autoview="Graph|2023-06-10T12:36:51.731Z|77372" project="{'name':'Karting','graphAutoView':'Graph|2023-06-10T12:36:51.731Z|77372'}" panels="[{'type':'PanelProject','state':{}},{'type':'PanelGraph','state':{'graph':'Graph|2023-06-10T12:36:51.731Z|77372'}}]" />
 
 <!--Activate the following line to include the FUDGE-version of Oimo-Physics. You may want to download a local copy to work offline and be independent from future changes!-->
-<script type="text/javascript" src="https://jirkadelloro.github.io/FUDGE/Physics/OimoPhysics.js"></script>
+<script type="text/javascript" src="Downloads/OimoPhysics.js"></script>
 
 <!--Load FUDGE. You may want to download local copies to work offline and be independent from future changes! Developers working on FUDGE itself may want to create symlinks-->
-<script type="text/javascript" src="https://jirkadelloro.github.io/FUDGE/Core/Build/FudgeCore.js"></script>
-<script type="text/javascript" src="https://jirkadelloro.github.io/FUDGE/Aid/Build/FudgeAid.js"></script>
-<script type="text/javascript" src="https://jirkadelloro.github.io/FUDGE/UserInterface/Build/FudgeUserInterface.js"></script>
+<script type="text/javascript" src="Downloads/FudgeCore.js"></script>
+<script type="text/javascript" src="Downloads/FudgeAid.js"></script>
+<script type="text/javascript" src="Downloads/FudgeUserInterface.js"></script>
 
 <!--Link internal resources. The editor only loads the first, but at runtime, multiple files can contribute-->
 <link type="resources" src="Internal.json" />
@@ -38,8 +38,49 @@
 </canvas>
 
 <div class="vui">
-    <input type="number" key="speed" name="speed" id="speed" value="0" />
+    <div class="indicator">
+        <p>Press R to restart</p>
+    </div>
+
+    <div class="indicator">
+        <p>Press C to change view</p>
+    </div>
+
+    <div class="indicator">
+        <label for="speed">Speed (m/s) :</label>
+        <input type="number" key="speed" name="speed" id="speed" value="0" />
+    </div>
+
+    <div class="indicator">
+        <label for="isLapValid">Is lap valid :</label>
+        <input type="text" key="isLapValid" name="isLapValid" id="isLapValid" value="false" />
+    </div>
+
+    <div class="indicator">
+        <label for="checkpoint">Checkpoint :</label>
+        <input type="text" key="checkpoint" name="checkpoint" id="checkpoint" value="false" />
+    </div>
+
+    <div class="indicator">
+        <label for="bestTime">Best lap time (s) :</label>
+        <input type="text" key="bestTime" name="bestTime" id="bestTime" value="0" />
+    </div>
+
+    <div class="indicator">
+        <label for="lapTime">Previous lap time (s) :</label>
+        <input type="text" key="lapTime" name="lapTime" id="lapTime" value="0" />
+    </div>
+
+    <div class="indicator">
+        <label for="currentLapTime">Current lap time (s) :</label>
+        <input type="text" key="currentLapTime" name="currentLapTime" id="currentLapTime" value="0" />
+    </div>
 </div>
+
+
+
+
+
 
 
 

@@ -9,6 +9,9 @@ namespace Script {
         startPos: ƒ.Vector3;
         startAng: ƒ.Vector3;
 
+        // Used to check if the new color is different in the checkOnTrack function
+        previousColor: string;
+
         constructor(node: ƒ.Node) {
             super('Track');
 
@@ -26,7 +29,8 @@ namespace Script {
 
         async loadTextures() {
             const trackTexture = new ƒ.TextureImage();
-            await trackTexture.load("/prima/Projects/Karting/Images/track_texture.jpg");
+            // "/prima/Projects/Karting/Images/track_texture.jpg"
+            await trackTexture.load("../../Images/track_texture.jpg");
             const trackCoat = new ƒ.CoatRemissiveTextured(ƒ.Color.CSS("white"), trackTexture);
             const trackMaterial = new ƒ.Material("TrackTexture", ƒ.ShaderFlatTextured, trackCoat)
             const cpmTrackMaterial = new ƒ.ComponentMaterial(trackMaterial);
@@ -34,7 +38,8 @@ namespace Script {
             this.texture.addComponent(cpmTrackMaterial);
 
             const pickTexture = new ƒ.TextureImage();
-            await pickTexture.load("/prima/Projects/Karting/Images/track_pick.jpg");
+            // "/prima/Projects/Karting/Images/track_pick.jpg"
+            await pickTexture.load("../../Images/track_pick.jpg");
             const pickCoat = new ƒ.CoatRemissiveTextured(ƒ.Color.CSS("white"), pickTexture);
             const pickMaterial = new ƒ.Material("TrackTexture", ƒ.ShaderFlatTextured, pickCoat)
             const cpmPickMaterial = new ƒ.ComponentMaterial(pickMaterial);
@@ -52,13 +57,34 @@ namespace Script {
         placeKart() {
             karting.rigidBody.setPosition(this.startPos);
             karting.rigidBody.setRotation(this.startAng);
+            karting.rigidBody.setVelocity(ƒ.Vector3.ZERO());
+            karting.rigidBody.setAngularVelocity(ƒ.Vector3.ZERO());
         }
 
         checkOnTrack(pos: ƒ.Vector3) {
-            const ray: ƒ.Ray = new ƒ.Ray(ƒ.Vector3.Y(1), pos, 10)
+            const ray: ƒ.Ray = new ƒ.Ray(ƒ.Vector3.Y(-1), pos, 1);
+            let picks: ƒ.Pick[] = ƒ.Picker.pickRay([track.pick], ray, 0, 1);
+            const pick = picks[0];
+            const color = pick?.color?.getHex();
+            if (color == this.previousColor) return TrackState.ON_TRACK;
+            this.previousColor = color;
 
-            let picks: ƒ.Pick[] = ƒ.Picker.pickRay([track.node], ray, 1, 100);
-            console.log(picks);
+            switch (color) {
+                case "ffffffff":
+                    return TrackState.ON_TRACK
+
+                case "000000ff":
+                    return TrackState.OFF_TRACK
+
+                case "01f801ff":
+                    return TrackState.START
+
+                case "ff2700ff":
+                    return TrackState.CHECKPOINT
+
+                default:
+                    return TrackState.ON_TRACK;
+            }
         }
     }
 }

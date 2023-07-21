@@ -16,6 +16,10 @@ namespace Script {
         currentRotationVelocity: ƒ.Vector3;
         rotationForce: number;
 
+        view: string;
+
+        lap: Lap;
+
         constructor(node: ƒ.Node) {
             super('Karting');
 
@@ -24,38 +28,66 @@ namespace Script {
             this.rigidBody = this.node.getComponent(ƒ.ComponentRigidbody);
 
             // TODO: Add configuration
-            this.maxVelocity = 50;
+            this.maxVelocity = config.maxVelocity;
             this.currentVelocity = ƒ.Vector3.ZERO();
-            this.accelerationForce = 100000; // Huge because of time based system
+            this.accelerationForce = config.accelerationForce; // Huge because of time based system
 
-            this.maxRotationVelocity = 5;
+            this.maxRotationVelocity = config.maxRotationVelocity;
             this.currentRotationVelocity = ƒ.Vector3.ZERO();
-            this.rotationForce = 1000; // Huge because of time based system
+            this.rotationForce = config.rotationForce; // Huge because of time based system
 
-            this.thirdPerson();
+            this.view = config.view;
+
+            this.lap = new Lap();
+            this.lap.valid = false;
+
+            // Choose first or third view
+            if (this.view == "first") {
+                this.firstPerson();
+            } else {
+                this.thirdPerson();
+            }
+
             this.setupAudio();
             this.playEngineSound();
         }
 
         firstPerson() {
+            const translation = camera.mtxPivot.translation;
+            const rotation = camera.mtxPivot.rotation;
+
             camera.attachToNode(this.geometry);
 
             // Move the default camera to first person
-            camera.mtxPivot.translateX(-2);
-            camera.mtxPivot.translateY(1);
-            camera.mtxPivot.translateZ(0);
-            camera.mtxPivot.rotateY(90);
+            translation.x = -2;
+            translation.y = 1;
+            translation.z = 0;
+            rotation.y = 90;
+            rotation.x = 0;
+
+            camera.mtxPivot.translation = translation;
+            camera.mtxPivot.rotation = rotation;
+
+            this.view = "first";
         }
 
         thirdPerson() {
+            const translation = camera.mtxPivot.translation;
+            const rotation = camera.mtxPivot.rotation;
+
             camera.attachToNode(this.geometry);
 
             // Move the default camera to third person
-            camera.mtxPivot.translateX(-10);
-            camera.mtxPivot.translateY(4);
-            camera.mtxPivot.translateZ(0);
-            camera.mtxPivot.rotateY(90);
-            camera.mtxPivot.rotateX(20);
+            translation.x = -10;
+            translation.y = 4;
+            translation.z = 0;
+            rotation.y = 90;
+            rotation.x = 20;
+
+            camera.mtxPivot.translation = translation;
+            camera.mtxPivot.rotation = rotation;
+
+            this.view = "third";
         }
 
         setupAudio() {
@@ -68,16 +100,15 @@ namespace Script {
 
             let cmpAudio: ƒ.ComponentAudio = new ƒ.ComponentAudio();
             cmpAudio.loop = true;
-            cmpAudio.playbackRate = 2;
             this.node.addComponent(cmpAudio);
             this.audio = cmpAudio;
         }
 
         playEngineSound() {
-            const engineSound: ƒ.Audio = new ƒ.Audio("/prima/Projects/Karting/Sounds/engine.mp3");
+            // "/prima/Projects/Karting/Sounds/engine.mp3"
+            const engineSound: ƒ.Audio = new ƒ.Audio("../../Sounds/engine.mp3");
             this.audio.setAudio(engineSound);
             this.audio.play(true);
-            console.log(this.audio);
         }
 
         loop() {
@@ -85,10 +116,49 @@ namespace Script {
             this.currentRotationVelocity = ƒ.Vector3.TRANSFORMATION(this.rigidBody.getAngularVelocity(), this.node.mtxWorldInverse, false);
 
             gamestate.speed = Math.round(this.currentVelocity.magnitude)
-
-            track.checkOnTrack(this.node.mtxLocal.translation);
-
+            // @ts-ignore
+            this.audio.playbackRate = 1 + gamestate.speed/8;
+            this.updateLapInfo();
             this.control();
+        }
+
+        updateLapInfo() {
+            const trackState = track.checkOnTrack(this.node.mtxLocal.translation);
+            switch (trackState) {
+                case TrackState.OFF_TRACK:
+                    this.lap.valid = false;
+
+                    gamestate.isLapValid = false;
+                    break;
+
+                case TrackState.START:
+                    if (this.lap.start) {
+                        this.lap.finish = true;
+                        this.lap.finishTime = ƒ.Time.game.get();
+
+                        gamestate.lapTime = this.lap.valid && this.lap.getLapTime() || 0;
+
+                        // Update best time
+                        if ((gamestate.lapTime != 0)
+                            && (gamestate.bestTime == 0 || gamestate.lapTime < gamestate.bestTime)) {
+                            gamestate.bestTime = gamestate.lapTime
+                        }
+                    }
+
+                    this.lap = new Lap()
+                    this.lap.startTime = ƒ.Time.game.get();
+
+                    gamestate.isLapValid = true;
+                    break;
+
+                case TrackState.CHECKPOINT:
+                    this.lap.checkpoint = true;
+                    gamestate.checkpoint = true;
+                    break;
+            }
+
+            const currentLapTime = Math.round(ƒ.Time.game.get() - this.lap.startTime)/1000
+            gamestate.currentLapTime = gamestate.isLapValid && currentLapTime || 0;
         }
 
         control() {
