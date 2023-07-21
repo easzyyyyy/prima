@@ -8,10 +8,10 @@ Created in PRIMA course at HFU
 
 # Links
 
-Link to the finished and executable application on Github-Pages : https://easzyyyyy.github.io/prima/Projects/Karting/index.html
-Link to the source code (prima) : https://github.com/easzyyyyy/prima/tree/main
-Link to the source code (Go-Kart) : https://github.com/easzyyyyy/prima/tree/main/Projects/Karting
-Link to the design document : https://github.com/easzyyyyy/prima/tree/main/Projects/Karting/presentation.pdf
+- Link to the finished and executable application on Github-Pages : https://easzyyyyy.github.io/prima/Projects/Karting/index.html
+- Link to the source code (prima) : https://github.com/easzyyyyy/prima/tree/main
+- Link to the source code (Go-Kart) : https://github.com/easzyyyyy/prima/tree/main/Projects/Karting
+- Link to the design document : https://github.com/easzyyyyy/prima/tree/main/Projects/Karting/presentation.pdf
 
 # How to use
 
