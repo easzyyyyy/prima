@@ -1,1 +1,13 @@
+# Dependencies
+node_modules/
+
+# TypeScript incremental build info
 *.tsbuildinfo
+
+# Logs
+npm-debug.log*
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+~$*
